@@ -1,24 +1,122 @@
 {
   "items": [
-    { "name": "BCA", "detail": "Giving Training for 10+ batches of the BCA Management Development Programme", "logo": "/logos/bca.svg", "size": "default" },
-    { "name": "Bank Indonesia", "detail": "Training for BI Institute and KPw ranging from Aceh to Papua", "logo": "/logos/bank-indonesia.svg", "size": "wide" },
-    { "name": "PT Telkomsel", "detail": "Guest Speaker at the Company-wide Townhall", "logo": "/logos/telkomsel.svg", "size": "default" },
-    { "name": "PT SMI", "detail": "Guest Speaker at the Company-wide Townhall", "logo": "", "size": "default" },
-    { "name": "Gojek", "detail": "Giving Training session for Company Beneficiaries (CSR)", "logo": "/logos/gojek.svg", "size": "default" },
-    { "name": "PT Pegadaian", "detail": "Giving internal corporate training for employees", "logo": "/logos/pegadaian.svg", "size": "default" },
-    { "name": "Badan Kebijakan Fiskal", "detail": "Public Session \"Nyibir Fiskal\"", "logo": "/logos/bkf.svg", "size": "seal" },
-    { "name": "DJPPR", "detail": "Giving internal corporate training for employees", "logo": "/logos/djppr.svg", "size": "seal" },
-    { "name": "Kementrian Kesehatan RI", "detail": "Giving internal corporate training for employees", "logo": "/logos/kemenkes.svg", "size": "seal" },
-    { "name": "KOMINFO RI", "detail": "Giving internal corporate training for employees", "logo": "/logos/kominfo.svg", "size": "default" },
-    { "name": "Bank Syariah Indonesia", "detail": "Giving Training session for Company Beneficiaries (CSR)", "logo": "/logos/bsi.svg", "size": "default" },
-    { "name": "Dentsu", "detail": "Giving internal corporate training for Manager and Head Level", "logo": "/logos/dentsu.svg", "size": "default" },
-    { "name": "Astra Digital", "detail": "Giving internal corporate training for employees", "logo": "/logos/astra-digital.svg", "size": "default" },
-    { "name": "Yamaha", "detail": "Giving internal corporate training for employees", "logo": "/logos/yamaha.svg", "size": "default" },
-    { "name": "Kitabisa", "detail": "Giving internal corporate training for employees", "logo": "", "size": "default" },
-    { "name": "@America", "detail": "Public session", "logo": "/logos/atamerica.png", "size": "wide" },
-    { "name": "IDEAFEST", "detail": "Conference Speaker", "logo": "/logos/ideafest.png", "size": "default" },
-    { "name": "SBM ITB", "detail": "Dosen Tamu", "logo": "/logos/sbm-itb.svg", "size": "wide" },
-    { "name": "FISIPOL UNPAD", "detail": "Dosen Tamu", "logo": "/logos/fisip-unpad.png", "size": "default" },
-    { "name": "Bisnis.com × Indosat", "detail": "Giving Training session for Company Beneficiaries (CSR)", "logo": "/logos/bisnis.svg", "size": "default" }
+    {
+      "name": "BCA",
+      "detail": "GaveTraining for 10+ batches of the BCA Management Development Programme & Wealth Management Trainee",
+      "logo": "/logos/bca.svg",
+      "size": "default"
+    },
+    {
+      "name": "Bank Indonesia",
+      "detail": "Deliver training for BI Institute and BI KPw employee & beneficiaries, ranging from Aceh to Papua region.",
+      "logo": "/logos/bank-indonesia.svg",
+      "size": "wide"
+    },
+    {
+      "name": "PT Telkomsel",
+      "detail": "Guest Speaker at the Company-wide Townhall",
+      "logo": "/logos/telkomsel.svg",
+      "size": "default"
+    },
+    {
+      "name": "PT SMI",
+      "detail": "Guest Speaker at the Company-wide Townhall",
+      "size": "default"
+    },
+    {
+      "name": "Gojek",
+      "detail": "Giving Training session for Company Beneficiaries (CSR)",
+      "logo": "/logos/gojek.svg",
+      "size": "default"
+    },
+    {
+      "name": "PT Pegadaian",
+      "detail": "Gave internal corporate training for employees, especially Pegadaian internal influencer from all over Indonesia",
+      "logo": "/logos/pegadaian.svg",
+      "size": "default"
+    },
+    {
+      "name": "Badan Kebijakan Fiskal",
+      "detail": "Keynote Speaker at Public Session \"Nyibir Fiskal\"",
+      "logo": "/logos/bkf.svg",
+      "size": "seal"
+    },
+    {
+      "name": "DJPPR",
+      "detail": "Gave internal corporate training for employees, up until Eselon 2 Level",
+      "logo": "/logos/djppr.svg",
+      "size": "seal"
+    },
+    {
+      "name": "Kementrian Kesehatan RI",
+      "detail": "Gave internal corporate training for employees",
+      "logo": "/logos/kemenkes.svg",
+      "size": "seal"
+    },
+    {
+      "name": "KOMINFO RI",
+      "detail": "Giving internal corporate training for employees",
+      "logo": "/logos/kominfo.svg",
+      "size": "default"
+    },
+    {
+      "name": "Bank Syariah Indonesia",
+      "detail": "Giving Training session for Company Beneficiaries (CSR)",
+      "logo": "/logos/bsi.svg",
+      "size": "default"
+    },
+    {
+      "name": "Dentsu",
+      "detail": "Giving internal corporate training for Manager and Head Level",
+      "logo": "/logos/dentsu.svg",
+      "size": "default"
+    },
+    {
+      "name": "Astra Digital",
+      "detail": "Gave internal corporate training for the wholedata department, with 100+ participants",
+      "logo": "/logos/astra-digital.svg",
+      "size": "default"
+    },
+    {
+      "name": "Yamaha",
+      "detail": "Giving internal corporate training for employees",
+      "logo": "/logos/yamaha.svg",
+      "size": "default"
+    },
+    {
+      "name": "Kitabisa",
+      "detail": "Giving internal corporate training for employees",
+      "size": "default"
+    },
+    {
+      "name": "@America",
+      "detail": "Public session",
+      "logo": "/logos/atamerica.png",
+      "size": "wide"
+    },
+    {
+      "name": "IDEAFEST",
+      "detail": "Conference Speaker",
+      "logo": "/logos/ideafest.png",
+      "size": "default"
+    },
+    {
+      "name": "SBM ITB",
+      "detail": "Dosen Tamu for IBE Course (Integrated Business Experience) Class: Business for SBM ITB 2nd year students.",
+      "logo": "/logos/sbm-itb.svg",
+      "size": "wide"
+    },
+    {
+      "name": "FISIPOL UNPAD",
+      "detail": "Dosen Tamu on Digital Activism for 3rd year FISIP UNPAD student",
+      "logo": "/logos/fisip-unpad.png",
+      "size": "default"
+    },
+    {
+      "name": "Bisnis.com × Indosat",
+      "detail": "Giving Training session for Company Beneficiaries (CSR)",
+      "logo": "/logos/bisnis.svg",
+      "size": "default"
+    }
   ]
 }
