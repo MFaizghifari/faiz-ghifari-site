@@ -1,5 +1,5 @@
 .aboutSection {
-  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-top: clamp(5rem, 7vw, 5rem);
 }
 
 .body {
@@ -128,6 +128,9 @@
 @media (max-width: 900px) {
   .body {
     grid-template-columns: 1fr;
+  }
+  .body > :first-child {
+    display: none;
   }
 }
 
