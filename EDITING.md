@@ -1,15 +1,48 @@
 # Editing faizghifari.com
 
-## Content files (edit these to update the site)
+## Option 1 — Friendly UI (Keystatic CMS)
 
-| File | What it controls |
+```bash
+cd "/Users/faizghifari/Claude Code/faiz-ghifari-site"
+npm run dev
+```
+
+Then open **http://localhost:3000/keystatic** in your browser.
+
+You'll see a sidebar with:
+
+- **Site content** — nav, hero, about, section headings, footer
+- **Portfolio** — speaking & training client cards
+- **Media features** — press outlets
+- **Topics** — expertise cards
+- **Travel pins** — regions, places, dive sites
+- **Blog posts** — write/edit posts with a rich text editor
+
+Fill in forms, click **Save**. Changes write directly to the repo's content files.
+Review with `git status`, then deploy:
+
+```bash
+npm run build && vercel --prod
+```
+
+### Caveats
+- **Local only.** The `/keystatic` admin on the live site is read-only (it would need GitHub OAuth to write). Edit locally, push, deploy.
+- **One editor at a time.** Two people editing simultaneously will conflict at the file level.
+
+---
+
+## Option 2 — Edit files directly
+
+| Where | What it controls |
 |---|---|
-| [data/content.js](data/content.js) | All text: name, tagline, bio, headings, contact links, social movements |
-| [data/portfolio.js](data/portfolio.js) | Speaking & training clients (logo paths + detail) |
-| [data/media.js](data/media.js) | Press & media outlets |
-| [data/pins.js](data/pins.js) | Travel map — places, regions, dive sites, dive count |
-| [data/topics.js](data/topics.js) | Topics & expertise cards |
-| [content/posts/*.md](content/posts) | Blog posts — one Markdown file per post, filename becomes the URL slug |
+| [data/content/site/index.json](data/content/site/index.json) | All text: nav, hero, about, section headings, footer |
+| [data/content/portfolio/index.json](data/content/portfolio/index.json) | Speaking & training clients |
+| [data/content/media/index.json](data/content/media/index.json) | Press & media outlets |
+| [data/content/topics/index.json](data/content/topics/index.json) | Topics & expertise cards |
+| [data/content/pins/index.json](data/content/pins/index.json) | Travel map — regions, places, dive sites, dive count |
+| [content/posts/*.md](content/posts) | Blog posts — one Markdown file per post |
+
+The `data/*.js` files are thin wrappers — don't edit them; edit the JSON under `data/content/` instead.
 
 ### Blog post format
 
@@ -30,6 +63,8 @@ code fences, horizontal rules.
 
 The filename (e.g. `teaching-indonesia-how-to-learn-again.md`) becomes the URL
 slug at `/blog/teaching-indonesia-how-to-learn-again`.
+
+---
 
 ## Local preview
 

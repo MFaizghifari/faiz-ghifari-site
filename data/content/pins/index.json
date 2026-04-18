@@ -1,0 +1,92 @@
+{
+  "divesLogged": 25,
+  "regions": [
+    {
+      "name": "Maluku",
+      "places": [
+        { "name": "Ambon", "lng": 128.181, "lat": -3.695, "dive": true,  "highlights": ["Natsepa", "Pantai Liang", "Morella", "Benteng VOC", "Masjid tertua di Indonesia"], "diveSpots": ["Hukurilla", "Laha", "Tulehu"] },
+        { "name": "Banda Neira", "lng": 129.898, "lat": -4.523, "dive": false, "highlights": ["Gunung Api Banda", "Banda Besar", "Lava Point", "Pulau Hatta", "Benteng mata uang"], "diveSpots": [] },
+        { "name": "Pulau Kei", "lng": 132.747, "lat": -5.701, "dive": false, "highlights": ["Ngurbloat", "Ngurvloat", "Hidden Coral Reef"], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Sulawesi Utara",
+      "places": [
+        { "name": "Manado", "lng": 124.841, "lat": 1.487, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Minahasa Utara", "lng": 125.036, "lat": 1.555, "dive": false, "highlights": [], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Nusa Tenggara Timur",
+      "places": [
+        { "name": "Kupang", "lng": 123.608, "lat": -10.179, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Maumere", "lng": 122.213, "lat": -8.619, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Ende", "lng": 121.659, "lat": -8.843, "dive": false, "highlights": ["Kelimutu"], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Nusa Tenggara Barat",
+      "places": [
+        { "name": "Mataram", "lng": 116.116, "lat": -8.583, "dive": false, "highlights": ["Lombok"], "diveSpots": [] },
+        { "name": "Sembalun", "lng": 116.543, "lat": -8.368, "dive": false, "highlights": ["Lombok"], "diveSpots": [] },
+        { "name": "Gili Trawangan", "lng": 116.04, "lat": -8.35, "dive": true, "highlights": [], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Bali",
+      "places": [
+        { "name": "Denpasar", "lng": 115.22, "lat": -8.671, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Kuta", "lng": 115.17, "lat": -8.722, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Ubud", "lng": 115.263, "lat": -8.506, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Gunung Kintamani", "lng": 115.36, "lat": -8.25, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Nusa Lembongan", "lng": 115.446, "lat": -8.68, "dive": false, "highlights": ["Devil's Tear", "Ceningan", "Yellow Bridge"], "diveSpots": [] },
+        { "name": "Nusa Penida", "lng": 115.544, "lat": -8.727, "dive": true, "highlights": [], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Kalimantan",
+      "places": [
+        { "name": "Tarakan", "lng": 117.612, "lat": 3.305, "dive": false, "highlights": ["Kalimantan Utara"], "diveSpots": [] },
+        { "name": "Pontianak", "lng": 109.322, "lat": -0.026, "dive": false, "highlights": ["Kalimantan Barat"], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Papua",
+      "places": [
+        { "name": "Manokwari", "lng": 134.062, "lat": -0.863, "dive": false, "highlights": ["Gunung Botak", "Papua Barat"], "diveSpots": [] },
+        { "name": "Sorong", "lng": 131.256, "lat": -0.88, "dive": false, "highlights": ["Papua Barat Daya"], "diveSpots": [] },
+        { "name": "Raja Ampat", "lng": 130.517, "lat": -0.234, "dive": true, "highlights": ["Papua Barat Daya"], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Sumatera",
+      "places": [
+        { "name": "Pekanbaru", "lng": 101.445, "lat": 0.51, "dive": false, "highlights": ["Riau"], "diveSpots": [] },
+        { "name": "Bangka", "lng": 106.134, "lat": -2.049, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Kepulauan Belitung", "lng": 107.646, "lat": -2.74, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Batam", "lng": 104.031, "lat": 1.12, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Padang", "lng": 100.361, "lat": -0.948, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Lampung", "lng": 105.266, "lat": -5.45, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Banda Aceh", "lng": 95.322, "lat": 5.548, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Sabang", "lng": 95.328, "lat": 5.893, "dive": true, "highlights": ["Pulau Weh"], "diveSpots": [] }
+      ]
+    },
+    {
+      "name": "Jawa",
+      "places": [
+        { "name": "Jakarta", "lng": 106.816, "lat": -6.2, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Bandung", "lng": 107.609, "lat": -6.914, "dive": false, "highlights": ["Gunung Burangrang"], "diveSpots": [] },
+        { "name": "Semarang", "lng": 110.423, "lat": -6.966, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Kudus", "lng": 110.84, "lat": -6.805, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Solo", "lng": 110.824, "lat": -7.556, "dive": false, "highlights": ["Gunung Lawu (via Cemoro Sewu, Cemoro Kandang, Candi Cetho)"], "diveSpots": [] },
+        { "name": "Jogja", "lng": 110.367, "lat": -7.796, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Salatiga", "lng": 110.492, "lat": -7.331, "dive": false, "highlights": ["Gunung Merapi", "Gunung Merbabu"], "diveSpots": [] },
+        { "name": "Bromo", "lng": 112.953, "lat": -7.942, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Surabaya", "lng": 112.748, "lat": -7.25, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Malang", "lng": 112.634, "lat": -7.967, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Subang", "lng": 107.762, "lat": -6.572, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Madura", "lng": 113.37, "lat": -7.0, "dive": false, "highlights": [], "diveSpots": [] }
+      ]
+    }
+  ]
+}

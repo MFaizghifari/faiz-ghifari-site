@@ -1,30 +1,4 @@
-export const topics = [
-  {
-    title: 'Generative AI & Productivity',
-    blurb: 'Practical AI for knowledge workers — from prompt craft to agent workflows that compound everyday.',
-  },
-  {
-    title: 'Critical Thinking',
-    blurb: 'Frameworks for clear reasoning, decision-making, and argument — tuned for the Indonesian professional.',
-  },
-  {
-    title: 'Digital Marketing',
-    blurb: 'Modern marketing that blends brand, content, and data — without losing sight of the person on the other side.',
-  },
-  {
-    title: 'Project Management',
-    blurb: 'Shipping real work through the mess — scope, pace, people, and making tradeoffs you can defend.',
-  },
-  {
-    title: 'Startup Building',
-    blurb: 'From first principles to first hires. The unglamorous middle of building something that lasts.',
-  },
-  {
-    title: 'Personal Development',
-    blurb: 'Career, habits, craft. Small compounding moves over decades — not hacks for the week.',
-  },
-  {
-    title: 'Social Innovation',
-    blurb: 'Civic movements, mutual-aid platforms, and the infrastructure of collective action in Indonesia.',
-  },
-]
+// Edit via /keystatic or data/content/topics/index.json.
+import data from './content/topics/index.json'
+
+export const topics = data.items.map((t) => ({ title: t.title, blurb: t.blurb }))

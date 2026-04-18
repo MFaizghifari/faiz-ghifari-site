@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "logoMark": "FG",
+    "logoLabel": "Faiz Ghifari — home",
+    "links": [
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Portfolio",
+        "href": "#portfolio"
+      },
+      {
+        "label": "Media",
+        "href": "#media"
+      },
+      {
+        "label": "Topics",
+        "href": "#topics"
+      },
+      {
+        "label": "Travel",
+        "href": "#travel"
+      },
+      {
+        "label": "Writing",
+        "href": "#writing"
+      },
+      {
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "CEO & Founder — Belajarlagi",
+    "name": "Faiz Ghifari",
+    "tagline": "Building Indonesia's learning culture.",
+    "ctaLabel": "Get in Touch",
+    "ctaHref": "#contact",
+    "portraitSrc": "/faiz-optimized.jpg",
+    "portraitAlt": "Faiz Ghifari, portrait"
+  },
+  "about": {
+    "label": "About",
+    "heading": "A builder of learning culture.",
+    "bio": [
+      "Faiz is the CEO & Founder of Belajarlagi, an edtech startup with 10,000+ alumni and 30+ corporate clients. He has personally trained 30,000+ individuals in Generative AI, critical thinking, project management, digital marketing, startup building, and personal development.",
+      "He is an educational content creator on Twitter/X with 100,000 followers, reaching 15–20 million accounts per month.",
+      "He has co-initiated social movements that mobilize everyday and impact millions Indonesians around mutual aid, education access, and civic futures.",
+      "Adventure is his other full-time job: certified scuba diver 30 meter bellow sea level and passionate mountaineer above. In between expeditions, Jakarta gets him in board game mode or mid-rally on a racket court."
+    ],
+    "stats": [
+      {
+        "label": "Belajarlagi alumni",
+        "value": "10,000+",
+        "xIcon": false
+      },
+      {
+        "label": "Individuals trained",
+        "value": "30,000+",
+        "xIcon": false
+      },
+      {
+        "label": "Followers on",
+        "value": "100,000",
+        "xIcon": true
+      }
+    ],
+    "movementsLabel": "Social movements co-initiated",
+    "movements": [
+      {
+        "name": "wargabantuwarga",
+        "href": "https://wargabantuwarga.id/"
+      },
+      {
+        "name": "GratisinBelajar",
+        "href": "https://kumparan.com/teman-kumparan/gratisinbelajar-com-platform-kelas-online-gratis-yang-tandingi-prakerja-1tUlWhQMBUs"
+      },
+      {
+        "name": "UrunDaya",
+        "href": "https://www.suara.com/news/2021/07/08/121643/urun-daya-covid-situs-inisiatif-masyarakat-bantu-sesama-akses-bantuan-saat-pandemi"
+      },
+      {
+        "name": "ButuhDriver",
+        "href": "https://kumparan.com/teman-kumparan/viral-butuhdriver-aplikasi-ini-dibuat-untuk-atasi-ojol-yang-terdampak-pandemi-1tG68eARUWn"
+      },
+      {
+        "name": "Kawal Masa Depan",
+        "href": "https://whiteboardjournal.com/ideas/human-interest/untuk-membantu-anak-yatim-piatu-karena-covid-19-lahir-inisiatif-kawal-masa-depan/"
+      },
+      {
+        "name": "BacaQuran.org",
+        "href": "https://bacaquran.org/"
+      }
+    ]
+  },
+  "portfolioHeader": {
+    "label": "Speaking & Training",
+    "heading": "Organizations I've worked with."
+  },
+  "mediaHeader": {
+    "label": "Media Features",
+    "heading": "As featured in."
+  },
+  "topicsHeader": {
+    "label": "Topics & Expertise",
+    "heading": "What I teach."
+  },
+  "travel": {
+    "heading": "Places I've been in Indonesia",
+    "subtitle": "Stepping into a place I don't know usually teaches me something I didn't realize I was missing, and makes for better conversations when I get home.",
+    "mapSrc": "/indonesia-map-optimized.jpg",
+    "legendDive": "Dive site logged",
+    "legendVisited": "Visited"
+  },
+  "blog": {
+    "label": "Writing",
+    "heading": "Thoughts & field notes.",
+    "readLabel": "Read"
+  },
+  "footer": {
+    "heading": "Let's talk. ☕️",
+    "contact": [
+      {
+        "label": "Email",
+        "value": "faiz@belajarlagi.id",
+        "href": "mailto:faiz@belajarlagi.id",
+        "external": false
+      },
+      {
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/faizghifari",
+        "href": "https://www.linkedin.com/in/faizghifari/",
+        "external": true
+      },
+      {
+        "label": "X",
+        "value": "@mfaizghifari",
+        "href": "https://x.com/mfaizghifari",
+        "external": true
+      },
+      {
+        "label": "Instagram",
+        "value": "@mfaizghifarii",
+        "href": "https://instagram.com/mfaizghifarii",
+        "external": true
+      },
+      {
+        "label": "Based in",
+        "value": "BSD, Indonesia",
+        "external": false
+      }
+    ],
+    "copyright": "© 2026 Faiz Ghifari"
+  }
+}

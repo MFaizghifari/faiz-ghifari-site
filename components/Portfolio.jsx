@@ -20,7 +20,13 @@ export default function Portfolio() {
             <div className={styles.top}>
               {c.logo && (
                 <img
-                  className={styles.logo}
+                  className={`${styles.logo}${
+                    c.size === 'seal'
+                      ? ` ${styles.logoSeal}`
+                      : c.size === 'wide'
+                      ? ` ${styles.logoWide}`
+                      : ''
+                  }`}
                   src={c.logo}
                   alt=""
                   loading="lazy"
