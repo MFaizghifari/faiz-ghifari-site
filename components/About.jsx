@@ -46,7 +46,7 @@ function renderBioParagraph(paragraph, key) {
 
 export default function About() {
   return (
-    <section id="about" className={section.section} aria-labelledby="about-heading">
+    <section id="about" className={`${section.section} ${styles.aboutSection}`} aria-labelledby="about-heading">
       <div className={section.header}>
         <div className={section.headerLabel}>
           <span className="eyebrow">{about.label}</span>
