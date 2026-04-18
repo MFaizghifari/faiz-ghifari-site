@@ -3,7 +3,8 @@
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(2rem, 6vw, 5rem);
-  padding: clamp(4rem, 8vw, 7rem) var(--space-gutter) clamp(3rem, 6vw, 5rem);
+  min-height: calc(100vh - 80px);
+  padding: clamp(2rem, 4vw, 4rem) var(--space-gutter);
   max-width: var(--max-content);
   margin: 0 auto;
   width: 100%;
