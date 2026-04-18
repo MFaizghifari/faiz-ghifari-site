@@ -64,11 +64,11 @@
   letter-spacing: -0.02em;
   line-height: 1;
   display: block;
+  margin-top: 0.625rem;
 }
 
 .statLabel {
   display: block;
-  margin-top: 0.5rem;
   font-size: var(--fs-small);
   color: var(--color-muted);
   text-transform: uppercase;
