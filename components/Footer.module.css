@@ -1,0 +1,64 @@
+.footer {
+  background: var(--color-surface);
+  border-top: var(--border);
+}
+
+.inner {
+  padding: var(--space-section) var(--space-gutter) 3rem;
+  max-width: var(--max-content);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.cta {
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: var(--border);
+}
+
+.contactBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.contactLabel {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+}
+
+.contactValue {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: opacity var(--transition);
+}
+
+.contactValue:hover {
+  opacity: 0.55;
+}
+
+.legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: var(--border);
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+}

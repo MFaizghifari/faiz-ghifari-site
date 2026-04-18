@@ -1,0 +1,138 @@
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(var(--space-section) * 0.6) var(--space-gutter) var(--space-section);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: var(--border);
+}
+
+.back {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: color var(--transition);
+}
+
+.back:hover {
+  color: var(--color-black);
+}
+
+.meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+}
+
+.tag {
+  color: var(--color-black);
+}
+
+.date {
+  color: var(--color-muted);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-black);
+}
+
+.body :global(h2) {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.body :global(h3) {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.body :global(p) {
+  margin-bottom: 1.25rem;
+}
+
+.body :global(a) {
+  color: var(--color-black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.body :global(ul),
+.body :global(ol) {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.body :global(ul) {
+  list-style: disc;
+}
+
+.body :global(ol) {
+  list-style: decimal;
+}
+
+.body :global(li) {
+  margin-bottom: 0.5rem;
+}
+
+.body :global(blockquote) {
+  border-left: 2px solid var(--color-black);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.body :global(code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--color-surface);
+  padding: 0.125em 0.375em;
+  border-radius: 3px;
+}
+
+.body :global(pre) {
+  background: var(--color-surface);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.body :global(pre code) {
+  background: transparent;
+  padding: 0;
+}
+
+.body :global(hr) {
+  border: none;
+  border-top: var(--border);
+  margin: 2.5rem 0;
+}

@@ -1,0 +1,77 @@
+// Media features. Each entry becomes one clickable card in the "As featured in" strip.
+// - name:   outlet name shown in large serif
+// - outlet: optional subtitle (section, sub-brand, or distinguishing label)
+// - href:   article URL — if present, the whole card becomes a link opening in a new tab
+export const media = [
+  {
+    name: 'Mata Najwa',
+    outlet: 'Trans7',
+    href: 'https://www.youtube.com/watch?v=MDtVB-bS8SM',
+  },
+  {
+    name: 'Kick Andy',
+    outlet: 'Metro TV',
+    href: 'https://www.youtube.com/watch?v=bZhEpIudXmI',
+  },
+  {
+    name: 'Metro TV',
+    outlet: 'Sejuta Aksi Bantu Negeri',
+    href: 'https://www.metrotvnews.com/play/N0BCl4n4-sejuta-aksi-bantu-negeri-3',
+  },
+  {
+    name: 'BBC Indonesia',
+    href: 'https://www.bbc.com/indonesia/media-57833030',
+  },
+  {
+    name: 'Kompas.id',
+    outlet: 'Solidaritas Pendidikan',
+    href: 'https://www.kompas.id/baca/dikbud/2021/08/25/solidaritas-demi-masa-depan-anak-korban-pandemi',
+  },
+  {
+    name: 'Kompas Megapolitan',
+    outlet: 'Urun Daya Covid',
+    href: 'https://megapolitan.kompas.com/read/2021/07/07/06000061/urundayacovid.com-situs-tempat-warga-urunan-informasi-vaksinasi-hingga?page=all',
+  },
+  {
+    name: 'Kompas Megapolitan',
+    outlet: 'Warga Bantu Warga',
+    href: 'https://megapolitan.kompas.com/read/2021/07/26/18032701/yuk-daftar-jadi-relawan-data-wargabantuwargacom-untuk-bantu-pasien-covid',
+  },
+  {
+    name: 'Jawa Pos',
+    outlet: 'Nasional',
+    href: 'https://www.jawapos.com/nasional/17/08/2021/faiz-ghifari-karena-solidaritas-juga-bisa-mewabah/',
+  },
+  {
+    name: 'Jawa Pos',
+    outlet: 'Features',
+    href: 'https://www.jawapos.com/features/12/07/2021/ada-yang-tanya-boleh-tidak-sumbang-diaper-dewasa/',
+  },
+  {
+    name: 'Media Indonesia',
+    outlet: 'Weekend',
+    href: 'https://mediaindonesia.com/weekend/430444/semangat-kebaikan-di-situs-web',
+  },
+  {
+    name: 'Suara.com',
+    outlet: 'News',
+    href: 'https://www.suara.com/news/2021/07/08/121643/urun-daya-covid-situs-inisiatif-masyarakat-bantu-sesama-akses-bantuan-saat-pandemi?page=all',
+  },
+  {
+    name: 'Liputan6',
+    outlet: 'Health',
+    href: 'https://www.liputan6.com/health/read/4622517/raffi-ahmad-hingga-najwa-shihab-galang-dana-untuk-oksigen-pasien-covid-19',
+  },
+  {
+    name: 'Pikiran Rakyat',
+    outlet: 'Nasional',
+    href: 'https://www.pikiran-rakyat.com/nasional/pr-012430496/simak-cara-jadi-orangtua-asuh-untuk-anak-anak-yatim-piatu-terdampak-wabah-covid-19',
+  },
+
+  // Non-clickable entries (no href)
+  { name: 'CNN' },
+  { name: 'Tempo' },
+  { name: 'Tech in Asia' },
+  { name: 'Jakarta Post' },
+  { name: 'Voice of America' },
+]

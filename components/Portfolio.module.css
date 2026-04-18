@@ -1,0 +1,66 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0;
+  border-top: var(--border);
+  border-left: var(--border);
+}
+
+.card {
+  border-right: var(--border);
+  border-bottom: var(--border);
+  padding: 1.75rem 1.5rem;
+  background: var(--color-white);
+  transition: background var(--transition), color var(--transition);
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.card:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.logo {
+  display: block;
+  height: 26px;
+  max-height: 26px;
+  width: auto;
+  max-width: 96px;
+  object-fit: contain;
+  object-position: left center;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0.9;
+  transition: filter var(--transition), opacity var(--transition);
+}
+
+.card:hover .logo {
+  filter: grayscale(1) contrast(1.05) invert(1);
+  opacity: 1;
+}
+
+.name {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.detail {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  transition: color var(--transition);
+}
+
+.card:hover .detail {
+  color: rgba(255, 255, 255, 0.7);
+}
