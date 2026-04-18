@@ -12,15 +12,19 @@ const linkItem = fields.object({
 })
 
 // Storage mode:
-// - Locally: 'local' — edits write directly to files on your Mac
-// - On Vercel: 'github' — edits become commits via GitHub OAuth,
+// - In dev (npm run dev): 'local' — edits write directly to files on your Mac
+// - In production (Vercel): 'github' — edits become commits via GitHub OAuth,
 //   Vercel auto-deploys, site updates without touching your laptop
-const storage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
-  ? {
-      kind: 'github',
-      repo: { owner: 'MFaizghifari', name: 'faiz-ghifari-site' },
-    }
-  : { kind: 'local' }
+//
+// Must use NODE_ENV (not a custom env var) because Keystatic's config is read
+// on the client too, and Next.js only inlines NODE_ENV/NEXT_PUBLIC_* on the client.
+const storage =
+  process.env.NODE_ENV === 'production'
+    ? {
+        kind: 'github',
+        repo: { owner: 'MFaizghifari', name: 'faiz-ghifari-site' },
+      }
+    : { kind: 'local' }
 
 export default config({
   storage,
