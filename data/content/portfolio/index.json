@@ -96,13 +96,13 @@
     },
     {
       "name": "IDEAFEST",
-      "detail": "Conference Speaker",
+      "detail": "Conference Speaker at IDEAFEST 2023",
       "logo": "/logos/ideafest.png",
       "size": "default"
     },
     {
       "name": "SBM ITB",
-      "detail": "Dosen Tamu for IBE Course (Integrated Business Experience) Class: Business for SBM ITB 2nd year students.",
+      "detail": "Dosen Tamu on IBE Course for SBM ITB 2nd year students.",
       "logo": "/logos/sbm-itb.svg",
       "size": "wide"
     },
@@ -114,7 +114,7 @@
     },
     {
       "name": "Bisnis.com × Indosat",
-      "detail": "Giving Training session for Company Beneficiaries (CSR)",
+      "detail": "Gave Training session for Company Beneficiaries (CSR) at Kupang, NTT",
       "logo": "/logos/bisnis.svg",
       "size": "default"
     }
