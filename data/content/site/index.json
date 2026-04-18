@@ -36,7 +36,7 @@
   "hero": {
     "eyebrow": "CEO & Founder — Belajarlagi",
     "name": "Faiz Ghifari",
-    "tagline": "Building Indonesia's learning culture.",
+    "tagline": "Building a learning ecosystem and helping companies grow through it.",
     "ctaLabel": "Get in Touch",
     "ctaHref": "#contact",
     "portraitSrc": "/faiz-optimized.jpg",
@@ -68,7 +68,7 @@
         "xIcon": true
       }
     ],
-    "movementsLabel": "Social movements co-initiated",
+    "movementsLabel": "Social movements and Project co-initiated",
     "movements": [
       {
         "name": "wargabantuwarga",
