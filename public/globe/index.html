@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Interactive Globe — GDP</title>
+<style>
+  :root {
+    --bg: #f2efe9;
+    --panel: #ebe7df;
+    --ink: #1a1a1a;
+    --ink-soft: rgba(26, 26, 26, 0.6);
+    --ink-faint: rgba(26, 26, 26, 0.16);
+    --accent: #1a1a1a;
+  }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  body {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .stage {
+    position: relative;
+    width: min(560px, 92vmin);
+    height: min(560px, 92vmin);
+    display: grid;
+    place-items: center;
+    touch-action: none;
+  }
+
+  .whirl {
+    position: absolute;
+    inset: 4%;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .whirl svg { width: 100%; height: 100%; display: block; }
+  .stage.interacting .whirl { opacity: 0; }
+
+  .spin-cw  { animation: spin 3.2s linear infinite; transform-origin: 50% 50%; }
+  .spin-ccw { animation: spin 5.6s linear infinite reverse; transform-origin: 50% 50%; }
+  .spin-slow{ animation: spin 8.5s linear infinite; transform-origin: 50% 50%; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .globe {
+    display: block;
+    width: 72%;
+    height: 72%;
+    cursor: grab;
+    transform-origin: 50% 50%;
+    transition: transform 0.08s linear;
+    will-change: transform;
+  }
+  .stage.dragging .globe { cursor: grabbing; }
+
+  /* Readout panel */
+  .readout {
+    position: fixed;
+    top: 20px; left: 20px;
+    background: var(--panel);
+    border: 1px solid var(--ink-faint);
+    padding: 14px 16px;
+    min-width: 180px;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .readout h2 {
+    margin: 0 0 8px 0;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+  }
+  .readout .name {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+    min-height: 22px;
+  }
+  .readout .gdp {
+    color: var(--ink-soft);
+  }
+  .readout .gdp strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Mode toggle */
+  .modes {
+    position: fixed;
+    top: 20px; right: 20px;
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--ink-faint);
+    background: var(--panel);
+  }
+  .modes button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-left: 1px solid var(--ink-faint);
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .modes button:first-child { border-left: 0; }
+  .modes button.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  /* Legend */
+  .legend {
+    position: fixed;
+    bottom: 20px; left: 20px;
+    background: var(--panel);
+    border: 1px solid var(--ink-faint);
+    padding: 12px 14px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .legend.on { display: block; }
+  .legend h3 {
+    margin: 0 0 8px 0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+  }
+  .legend-bar {
+    display: flex;
+    height: 10px;
+    width: 200px;
+    border: 1px solid var(--ink-faint);
+  }
+  .legend-bar span { flex: 1; }
+  .legend-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 9px;
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.7;
+  }
+  .hint kbd {
+    font: inherit;
+    background: var(--panel);
+    border: 1px solid var(--ink-faint);
+    padding: 2px 6px;
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+  <div class="readout" aria-live="polite">
+    <h2>Hover / Tap</h2>
+    <div class="name" id="r-name">—</div>
+    <div class="gdp" id="r-gdp">GDP <strong>—</strong></div>
+  </div>
+
+  <div class="modes" role="tablist">
+    <button data-mode="mono" class="active">Mono</button>
+    <button data-mode="gdp">GDP</button>
+  </div>
+
+  <div class="legend" id="legend">
+    <h3>GDP (nominal, USD)</h3>
+    <div class="legend-bar" id="legend-bar"></div>
+    <div class="legend-labels">
+      <span>no data</span>
+      <span>&lt;$100B</span>
+      <span>$1T</span>
+      <span>&gt;$20T</span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="whirl" id="whirl">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="fadeA" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="55%"  stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="85%"  stop-color="#1a1a1a" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.95"/>
+          </linearGradient>
+          <linearGradient id="fadeB" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(60 0.5 0.5)">
+            <stop offset="0%"   stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="60%"  stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.75"/>
+          </linearGradient>
+          <linearGradient id="fadeC" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(-30 0.5 0.5)">
+            <stop offset="0%"   stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="70%"  stop-color="#1a1a1a" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.55"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(26,26,26,0.08)" stroke-width="1"/>
+        <g class="spin-cw"><circle cx="100" cy="100" r="86" fill="none" stroke="url(#fadeA)" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/></g>
+        <g class="spin-ccw"><circle cx="100" cy="100" r="78" fill="none" stroke="url(#fadeB)" stroke-width="1.25" stroke-dasharray="14 10" stroke-linecap="round"/></g>
+        <g class="spin-slow"><circle cx="100" cy="100" r="96" fill="none" stroke="url(#fadeC)" stroke-width="1" stroke-dasharray="60 360" stroke-linecap="round"/></g>
+        <g class="spin-cw">
+          <circle cx="186" cy="100" r="1.6" fill="#1a1a1a"/>
+          <circle cx="100" cy="14"  r="1"   fill="rgba(26,26,26,0.55)"/>
+        </g>
+        <g class="spin-ccw"><circle cx="22" cy="100" r="1.2" fill="rgba(26,26,26,0.8)"/></g>
+      </svg>
+    </div>
+    <canvas class="globe" id="globe"></canvas>
+  </div>
+
+  <div class="hint">
+    Drag to rotate · Scroll to zoom<br/>
+    <kbd>Space</kbd> auto-spin · <kbd>R</kbd> reset
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="/globe/gdp-data.js"></script>
+<script>
+(async () => {
+  const stage   = document.getElementById('stage');
+  const canvas  = document.getElementById('globe');
+  const ctx     = canvas.getContext('2d');
+  const rName   = document.getElementById('r-name');
+  const rGdp    = document.getElementById('r-gdp');
+  const legend  = document.getElementById('legend');
+  const legendBar = document.getElementById('legend-bar');
+
+  // ------- sizing -------
+  const DPR = Math.min(2, window.devicePixelRatio || 1);
+  let logical = 400; // logical px
+  let baseScale = 1;
+  let zoom = 1;
+
+  function resize() {
+    // Measure the stage rather than the canvas, since canvas is CSS-scaled
+    // at zoom>1 and its bounding rect grows with the transform.
+    const host = canvas.parentElement;
+    const rect = host.getBoundingClientRect();
+    // Keep logical render size tied to the 72% width rule
+    logical = Math.round(Math.min(rect.width, rect.height) * 0.72);
+    canvas.width  = logical * DPR;
+    canvas.height = logical * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    baseScale = (logical / 2) - 4;
+    projection.translate([logical/2, logical/2]).scale(baseScale);
+    applyZoom();
+  }
+
+  function applyZoom() {
+    canvas.style.transform = `scale(${zoom})`;
+  }
+
+  // ------- projection -------
+  const projection = d3.geoOrthographic().clipAngle(90).rotate([0, -15, 0]);
+  const path = d3.geoPath(projection, ctx);
+  const sphere = { type: 'Sphere' };
+  const graticule = d3.geoGraticule10();
+
+  // ------- load world -------
+  let countries = [];
+  let land = null;
+  try {
+    const res = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json');
+    const topo = await res.json();
+    countries = topojson.feature(topo, topo.objects.countries).features;
+    land = topojson.feature(topo, topo.objects.land);
+  } catch (e) {
+    console.warn('world atlas failed to load', e);
+  }
+
+  // ------- GDP color scale (monochrome-friendly, off-white → ink) -------
+  // Uses a perceptual ramp from the bg tone to ink, so choropleth still reads mono.
+  const gdpValues = Object.values(window.GDP_BY_ID || {}).filter(v => v > 0);
+  const gdpDomain = gdpValues.length
+    ? [Math.min(...gdpValues), Math.max(...gdpValues)]
+    : [1e10, 2.5e13];
+
+  // Log scale because GDPs span orders of magnitude.
+  const gdpScale = d3.scaleLog()
+    .domain(gdpDomain)
+    .range([0, 1])
+    .clamp(true);
+
+  function gdpColor(v) {
+    if (v == null || v <= 0) return '#d9d4ca'; // no data — very light
+    const t = gdpScale(v);
+    // Interpolate between a warm light (#ddd6c7) and ink (#1a1a1a)
+    return d3.interpolateLab('#e4dfd2', '#1a1a1a')(t);
+  }
+
+  // build legend swatches
+  for (let i = 0; i < 24; i++) {
+    const s = document.createElement('span');
+    const t = i / 23;
+    s.style.background = d3.interpolateLab('#e4dfd2', '#1a1a1a')(t);
+    legendBar.appendChild(s);
+  }
+
+  // ------- state -------
+  let mode = 'mono'; // 'mono' | 'gdp'
+  let autoSpin = true;
+  let lambda = 0, phi = -15;
+  let hoverId = null;
+  let dragging = false;
+  let lastT = performance.now();
+
+  // ------- interaction: drag to rotate -------
+  let dragStart = null;
+  function pointerDown(e) {
+    e.preventDefault();
+    dragging = true;
+    stage.classList.add('dragging', 'interacting');
+    const p = pt(e);
+    dragStart = { x: p.x, y: p.y, lambda, phi };
+    autoSpin = false;
+  }
+  function pointerMove(e) {
+    const p = pt(e);
+    if (dragging && dragStart) {
+      // Drag sensitivity stays constant in screen space regardless of zoom.
+      const k = 0.35;
+      lambda = dragStart.lambda + (p.x - dragStart.x) * k;
+      phi    = clamp(dragStart.phi - (p.y - dragStart.y) * k, -89, 89);
+    }
+    updateHover(p.x, p.y);
+  }
+  function pointerUp() {
+    dragging = false;
+    dragStart = null;
+    stage.classList.remove('dragging');
+    // keep 'interacting' (whirl hidden) since auto-spin is off
+  }
+  function pt(e) {
+    // getBoundingClientRect reflects the CSS transform, so divide by zoom
+    // to map back to the canvas's internal logical coordinates.
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
+    return {
+      x: (src.clientX - r.left) / zoom,
+      y: (src.clientY - r.top) / zoom
+    };
+  }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  canvas.addEventListener('mousedown', pointerDown);
+  window.addEventListener('mousemove', pointerMove);
+  window.addEventListener('mouseup', pointerUp);
+  canvas.addEventListener('touchstart', pointerDown, { passive: false });
+  window.addEventListener('touchmove', (e) => { if (dragging) { e.preventDefault(); pointerMove(e); } }, { passive: false });
+  window.addEventListener('touchend', pointerUp);
+  canvas.addEventListener('mouseleave', () => { hoverId = null; setReadout(null); });
+
+  // zoom — CSS-transform the canvas so it grows visually past the original
+  // bounds instead of clipping inside a fixed projection.
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const factor = Math.pow(1.0015, -e.deltaY);
+    zoom = clamp(zoom * factor, 0.6, 6);
+    applyZoom();
+  }, { passive: false });
+
+  // keyboard
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      autoSpin = !autoSpin;
+      stage.classList.toggle('interacting', !autoSpin);
+    } else if (e.key === 'r' || e.key === 'R') {
+      lambda = 0; phi = -15; zoom = 1;
+      applyZoom();
+      autoSpin = true;
+      stage.classList.remove('interacting');
+    }
+  });
+
+  // mode toggle
+  document.querySelectorAll('.modes button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.modes button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      legend.classList.toggle('on', mode === 'gdp');
+    });
+  });
+
+  // ------- hover -------
+  function updateHover(x, y) {
+    if (!countries.length) return;
+    const lonLat = projection.invert && projection.invert([x, y]);
+    if (!lonLat || isNaN(lonLat[0])) { hoverId = null; setReadout(null); return; }
+    // check if point is on the visible hemisphere
+    const rotate = projection.rotate();
+    // d3.geoDistance
+    const center = [-rotate[0], -rotate[1]];
+    const d = d3.geoDistance(lonLat, center);
+    if (d > Math.PI / 2) { hoverId = null; setReadout(null); return; }
+
+    // find feature containing the point
+    let found = null;
+    for (const f of countries) {
+      if (d3.geoContains(f, lonLat)) { found = f; break; }
+    }
+    if (found) {
+      hoverId = found.id;
+      const info = (window.GDP_BY_ID || {});
+      const name = (window.NAME_BY_ID || {})[found.id] || 'Unknown';
+      const gdp  = info[found.id];
+      setReadout({ name, gdp });
+    } else {
+      hoverId = null;
+      setReadout(null);
+    }
+  }
+
+  function setReadout(o) {
+    if (!o) {
+      rName.textContent = '—';
+      rGdp.innerHTML = 'GDP <strong>—</strong>';
+      return;
+    }
+    rName.textContent = o.name;
+    rGdp.innerHTML = 'GDP <strong>' + formatGdp(o.gdp) + '</strong>';
+  }
+
+  function formatGdp(v) {
+    if (!v || v <= 0) return 'no data';
+    if (v >= 1e12) return '$' + (v/1e12).toFixed(2) + 'T';
+    if (v >= 1e9)  return '$' + (v/1e9).toFixed(0)  + 'B';
+    if (v >= 1e6)  return '$' + (v/1e6).toFixed(0)  + 'M';
+    return '$' + v;
+  }
+
+  // ------- render -------
+  const INK = '#1a1a1a';
+  const INK_FAINT = 'rgba(26, 26, 26, 0.16)';
+  const BG = '#f2efe9';
+
+  function render(now) {
+    const dt = (now - lastT) / 1000;
+    lastT = now;
+
+    if (autoSpin && !dragging) {
+      lambda += dt * 22; // deg/s
+    }
+    projection.rotate([lambda, -phi, 0]);
+
+    ctx.clearRect(0, 0, logical, logical);
+
+    // Sphere fill (subtle inner tone so globe reads as an object)
+    ctx.beginPath();
+    path(sphere);
+    ctx.fillStyle = mode === 'gdp' ? '#eae5d8' : BG;
+    ctx.fill();
+
+    // Graticule
+    ctx.beginPath();
+    path(graticule);
+    ctx.strokeStyle = INK_FAINT;
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    if (mode === 'mono') {
+      // Filled silhouette style
+      if (land) {
+        ctx.beginPath();
+        path(land);
+        ctx.fillStyle = INK;
+        ctx.fill();
+      }
+    } else {
+      // Choropleth by GDP
+      const GDP = window.GDP_BY_ID || {};
+      for (const f of countries) {
+        ctx.beginPath();
+        path(f);
+        ctx.fillStyle = gdpColor(GDP[f.id]);
+        ctx.fill();
+        ctx.lineWidth = 0.4;
+        ctx.strokeStyle = 'rgba(26,26,26,0.25)';
+        ctx.stroke();
+      }
+    }
+
+    // Hover highlight
+    if (hoverId != null) {
+      const f = countries.find(c => c.id === hoverId);
+      if (f) {
+        ctx.beginPath();
+        path(f);
+        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = mode === 'gdp' ? '#1a1a1a' : '#f2efe9';
+        ctx.stroke();
+      }
+    }
+
+    // Sphere outline
+    ctx.beginPath();
+    path(sphere);
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    requestAnimationFrame(render);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame((t) => { lastT = t; render(t); });
+})();
+</script>
+</body>
+</html>
