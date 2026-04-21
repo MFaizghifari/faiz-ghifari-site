@@ -1,6 +1,9 @@
 import { Inter } from 'next/font/google'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import '../styles/reset.css'
 import '../styles/tokens.css'
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 const inter = Inter({
   subsets: ['latin'],
@@ -77,6 +80,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </body>
+      {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </html>
   )
 }
