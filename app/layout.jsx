@@ -79,8 +79,8 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
-      {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </html>
   )
 }
