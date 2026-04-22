@@ -1,17 +1,16 @@
 // Edit via /keystatic or data/content/books/index.json.
 import data from './content/books/index.json'
 
-// Must match `publicPath` in keystatic.config.js → books.schema.items.cover
-const COVER_PUBLIC_PATH = '/books/'
+// Keystatic's fields.image stores the full public URL path in the JSON
+// (e.g. "/books/items/0/cover.jpg"), so we use it directly — no publicPath
+// prepending needed here.
 
 export const books = data.items.map((b) => {
   const book = {
     slug: b.slug,
     title: b.title,
     author: b.author,
-    // fields.image stores just the filename ("range.jpg"); prepend publicPath
-    // so next/image gets a proper absolute URL like "/books/range.jpg".
-    cover: b.cover ? `${COVER_PUBLIC_PATH}${b.cover}` : '',
+    cover: b.cover || '',
     quote: b.quote,
     spineColor: b.spineColor,
   }
