@@ -33,7 +33,7 @@ export default config({
     brand: { name: 'faizghifari.com' },
     navigation: {
       'Site content': ['siteContent'],
-      'Lists': ['portfolio', 'media', 'topics', 'pins'],
+      'Lists': ['portfolio', 'media', 'topics', 'pins', 'books'],
       'Writing': ['posts'],
     },
   },
@@ -250,6 +250,48 @@ export default config({
           {
             label: 'Topics',
             itemLabel: (props) => props.fields.title.value,
+          }
+        ),
+      },
+    }),
+
+    // ------------------------------------------------------------------
+    // BOOKS — "Books I love" shelf
+    // ------------------------------------------------------------------
+    books: singleton({
+      label: 'Books',
+      path: 'data/content/books/',
+      format: { data: 'json' },
+      schema: {
+        items: fields.array(
+          fields.object({
+            slug: fields.text({
+              label: 'Slug',
+              description: 'Unique id, kebab-case, e.g. thinking-with-type',
+            }),
+            title: fields.text({ label: 'Title' }),
+            author: fields.text({ label: 'Author' }),
+            cover: fields.text({
+              label: 'Cover image path',
+              description: 'e.g. /books/thinking-with-type.jpg (place file in /public/books/)',
+            }),
+            quote: fields.text({
+              label: 'Personal quote / note',
+              multiline: true,
+            }),
+            spineColor: fields.text({
+              label: 'Spine color',
+              description: 'CSS color, e.g. #7a1f1f or rebeccapurple',
+            }),
+            spineTextColor: fields.text({
+              label: 'Spine text color (optional)',
+              description: 'Defaults to white. Use a dark hex for light spines.',
+            }),
+          }),
+          {
+            label: 'Books',
+            itemLabel: (props) =>
+              `${props.fields.title.value}${props.fields.author.value ? ' — ' + props.fields.author.value : ''}`,
           }
         ),
       },

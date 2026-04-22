@@ -5,9 +5,11 @@ import Portfolio from '../components/Portfolio.jsx'
 import Media from '../components/Media.jsx'
 import Topics from '../components/Topics.jsx'
 import TravelMap from '../components/TravelMap.jsx'
+import Books from '../components/Books.jsx'
 import Blog from '../components/Blog.jsx'
 import Footer from '../components/Footer.jsx'
 import { getAllPosts } from '../lib/posts.js'
+import { books } from '../data/books.js'
 
 export default function Home() {
   const posts = getAllPosts()
@@ -21,6 +23,7 @@ export default function Home() {
         <Portfolio />
         <Topics />
         <TravelMap />
+        <Books items={books} />
         <Blog posts={posts} />
       </main>
       <Footer />
