@@ -72,14 +72,21 @@ export default function Books({ items = [] }) {
               </span>
 
               <span className="books-cover" aria-hidden={!isActive}>
-                <Image
-                  src={b.cover}
-                  alt={`${b.title} by ${b.author}`}
-                  fill
-                  sizes="(max-width: 640px) 40vw, 200px"
-                  priority={i === 0}
-                  className="books-cover-img"
-                />
+                {b.cover ? (
+                  <Image
+                    src={b.cover}
+                    alt={`${b.title} by ${b.author}`}
+                    fill
+                    sizes="(max-width: 640px) 40vw, 200px"
+                    priority={i === 0}
+                    className="books-cover-img"
+                  />
+                ) : (
+                  <span className="books-cover-fallback" aria-hidden="true">
+                    <span className="books-cover-fallback-title">{b.title}</span>
+                    <span className="books-cover-fallback-author">{b.author}</span>
+                  </span>
+                )}
               </span>
             </button>
           )
@@ -195,6 +202,34 @@ export default function Books({ items = [] }) {
           transform: translateY(0) scale(1) rotateY(-4deg);
         }
         .books-cover-img { object-fit: cover; }
+        .books-cover-fallback {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 1rem 0.75rem;
+          color: rgba(255, 255, 255, 0.85);
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.15)),
+            #1a1a1a;
+          gap: 0.5rem;
+        }
+        .books-cover-fallback-title {
+          font-family: 'Times New Roman', Georgia, serif;
+          font-style: italic;
+          font-size: 0.95rem;
+          line-height: 1.2;
+          letter-spacing: -0.01em;
+        }
+        .books-cover-fallback-author {
+          font-size: 0.6rem;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          opacity: 0.7;
+        }
         .books-meta {
           margin-top: 1.75rem;
           max-width: 560px;
