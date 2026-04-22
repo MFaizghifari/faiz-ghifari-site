@@ -2,10 +2,10 @@
   "items": [
     {
       "slug": "thinking-with-type",
-      "title": "Thinking with Type",
-      "author": "Ellen Lupton",
-      "cover": "",
-      "quote": "I used to be scared of typography. This book made me feel like I could finally see how letters actually work on a page.",
+      "title": "Thinking in System",
+      "author": "Donella H Meadow",
+      "cover": "/books/items/0/cover.jpg",
+      "quote": "Pengantar yang baik tentang bagaimana melihat dunia disekitar kita sebagai sebuah sistem yang terhubung, once you adopt the system thinking you are able to see a problem in a more connected and comprehensive ways",
       "spineColor": "#d9c9a3",
       "spineTextColor": "#2a2a2a"
     },
@@ -13,25 +13,20 @@
       "slug": "anna-karenina",
       "title": "Anna Karenina",
       "author": "Leo Tolstoy",
-      "cover": "",
       "quote": "Appalled by how articulate Tolstoy is about feelings I didn't know I had. I'll be reading more classics this year — thanks to Anna.",
-      "spineColor": "#7a1f1f",
-      "spineTextColor": ""
+      "spineColor": "#7a1f1f"
     },
     {
       "slug": "thinking-fast-and-slow",
       "title": "Thinking, Fast and Slow",
       "author": "Daniel Kahneman",
-      "cover": "",
       "quote": "The book that rewired how I notice my own reasoning. System 1 and System 2 are now the lenses I can't stop using.",
-      "spineColor": "#1f2a44",
-      "spineTextColor": ""
+      "spineColor": "#1f2a44"
     },
     {
       "slug": "zero-to-one",
       "title": "Zero to One",
       "author": "Peter Thiel",
-      "cover": "",
       "quote": "A short book with an unfashionable claim: most value comes from the parts of the problem nobody else has looked at.",
       "spineColor": "#eaeaea",
       "spineTextColor": "#1a1a1a"
@@ -40,19 +35,15 @@
       "slug": "the-design-of-everyday-things",
       "title": "The Design of Everyday Things",
       "author": "Don Norman",
-      "cover": "",
       "quote": "Once you read this, you can never un-see the bad door handles of the world. That's a compliment.",
-      "spineColor": "#d85a2a",
-      "spineTextColor": ""
+      "spineColor": "#d85a2a"
     },
     {
       "slug": "range",
       "title": "Range",
       "author": "David Epstein",
-      "cover": "",
       "quote": "A defence of generalists that finally made me stop apologising for having wide interests. The data is on our side.",
-      "spineColor": "#2e6b4a",
-      "spineTextColor": ""
+      "spineColor": "#2e6b4a"
     }
   ]
 }
