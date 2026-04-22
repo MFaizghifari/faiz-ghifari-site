@@ -271,9 +271,10 @@ export default config({
             }),
             title: fields.text({ label: 'Title' }),
             author: fields.text({ label: 'Author' }),
-            cover: fields.text({
-              label: 'Cover image path',
-              description: 'e.g. /books/thinking-with-type.jpg (place file in /public/books/)',
+            cover: fields.image({
+              label: 'Cover',
+              directory: 'public/books',
+              publicPath: '/books/',
             }),
             quote: fields.text({
               label: 'Personal quote / note',
