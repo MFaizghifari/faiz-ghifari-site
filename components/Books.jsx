@@ -11,12 +11,30 @@
  */
 
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+// How long a mouse must rest on a spine before the book flips open.
+// Short enough to feel responsive; long enough that sweeping the mouse
+// across the shelf doesn't cascade-flip every book.
+const HOVER_DELAY_MS = 120
 
 export default function Books({ items = [] }) {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const active = items[activeIndex]
+
+  // Single shared timer — only one pending flip at a time. Sweeping to a new
+  // book cancels the previous book's pending flip via onPointerLeave.
+  const hoverTimerRef = useRef(null)
+  const clearHoverTimer = useCallback(() => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = null
+    }
+  }, [])
+
+  // Ensure no stale timer fires after unmount (e.g. route change mid-hover).
+  useEffect(() => clearHoverTimer, [clearHoverTimer])
 
   const go = useCallback(
     (delta) => {
@@ -33,6 +51,29 @@ export default function Books({ items = [] }) {
       else if (e.key === 'End') { e.preventDefault(); setActiveIndex(items.length - 1) }
     },
     [go, items.length]
+  )
+
+  const handlePointerEnter = useCallback(
+    (i, e) => {
+      // Only mouse/pen get the hover-to-flip; touch uses click instead to
+      // avoid the "tap = hover + click" double-fire pattern on iOS/Android.
+      if (e.pointerType === 'touch') return
+      clearHoverTimer()
+      hoverTimerRef.current = setTimeout(() => {
+        setActiveIndex(i)
+        hoverTimerRef.current = null
+      }, HOVER_DELAY_MS)
+    },
+    [clearHoverTimer]
+  )
+
+  const handleClick = useCallback(
+    (i) => {
+      // Click wins immediately — skip the hover delay.
+      clearHoverTimer()
+      setActiveIndex(i)
+    },
+    [clearHoverTimer]
   )
 
   if (!active) return null
@@ -62,7 +103,10 @@ export default function Books({ items = [] }) {
                 '--spine-bg': b.spineColor,
                 '--spine-text': b.spineTextColor ?? '#fff',
               }}
-              onClick={() => setActiveIndex(i)}
+              onClick={() => handleClick(i)}
+              onPointerEnter={(e) => handlePointerEnter(i, e)}
+              onPointerLeave={clearHoverTimer}
+              onPointerCancel={clearHoverTimer}
             >
               <span className="books-spine" aria-hidden={isActive}>
                 <span className="books-spine-label">
