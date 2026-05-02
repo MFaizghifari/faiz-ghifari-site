@@ -7,11 +7,16 @@
  * data/content/books/index.json directly. Covers live in /public/books/
  * (400×600 px, AVIF or WebP preferred).
  *
- * Zero new dependencies. Uses next/image + styled-jsx (both already in Next.js).
+ * Styles live in Books.module.css so Next.js extracts them into a <link>
+ * stylesheet that loads in <head> before the body renders. (We previously
+ * used styled-jsx, which injects styles inline at render time and caused
+ * a brief flash of an unbounded <Image fill> — the "huge book cover" flash
+ * — during the gap between HTML arrival and styled-jsx hydration.)
  */
 
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import styles from './Books.module.css'
 
 // How long a mouse must rest on a spine before the book flips open.
 // Short enough to feel responsive; long enough that sweeping the mouse
@@ -35,6 +40,42 @@ export default function Books({ items = [] }) {
 
   // Ensure no stale timer fires after unmount (e.g. route change mid-hover).
   useEffect(() => clearHoverTimer, [clearHoverTimer])
+
+  // The shelf scrolls horizontally on small screens (24+ books > viewport).
+  // When the active book changes via click or arrow keys, slide it into view
+  // so users can see what they just selected. We compute scrollLeft directly
+  // rather than calling scrollIntoView — the latter races with the flex-basis
+  // transition (500ms) on the active book and gets cancelled. We also skip the
+  // very first effect tick so the page doesn't auto-scroll on initial load.
+  const shelfRef = useRef(null)
+  const didMountRef = useRef(false)
+  useEffect(() => {
+    console.log('[BookScroll] effect run', { activeIndex, didMount: didMountRef.current })
+    if (!didMountRef.current) {
+      didMountRef.current = true
+      return
+    }
+    const shelf = shelfRef.current
+    console.log('[BookScroll] shelf', !!shelf, 'el', !!shelf?.children[activeIndex])
+    if (!shelf) return
+    const el = shelf.children[activeIndex]
+    if (!el) return
+    // Smooth scroll gets cancelled when the active book's flex-basis transition
+    // (500ms) reflows the shelf mid-animation. We must use behavior:'instant'
+    // explicitly — assigning scrollLeft directly triggers smooth scrolling
+    // because html has `scroll-behavior: smooth`, and 'auto' inherits the same.
+    // Wrap in rAF so we measure offsetWidth *after* React commits the new
+    // active class — otherwise the active book is still narrow and centring is
+    // off by ~80px.
+    requestAnimationFrame(() => {
+      const target = el.offsetLeft + el.offsetWidth / 2 - shelf.clientWidth / 2
+      const max = shelf.scrollWidth - shelf.clientWidth
+      const clamped = Math.max(0, Math.min(max, target))
+      console.log('[BookScroll] rAF scrollTo', { target, clamped, max, before: shelf.scrollLeft })
+      shelf.scrollTo({ left: clamped, behavior: 'instant' })
+      console.log('[BookScroll] after scrollTo', { after: shelf.scrollLeft })
+    })
+  }, [activeIndex])
 
   const go = useCallback(
     (delta) => {
@@ -79,11 +120,12 @@ export default function Books({ items = [] }) {
   if (!active) return null
 
   return (
-    <section id="books" className="books-section" aria-labelledby="books-heading">
-      <h2 id="books-heading" className="books-heading">Books I love</h2>
+    <section id="books" className={styles.section} aria-labelledby="books-heading">
+      <h2 id="books-heading" className={styles.heading}>Books I love</h2>
 
       <div
-        className="books-shelf"
+        ref={shelfRef}
+        className={styles.shelf}
         role="tablist"
         aria-label="Book shelf — use left and right arrow keys to browse"
         onKeyDown={onKeyDown}
@@ -98,7 +140,7 @@ export default function Books({ items = [] }) {
               aria-selected={isActive}
               aria-controls="books-panel"
               tabIndex={isActive ? 0 : -1}
-              className={`books-book${isActive ? ' books-book-active' : ''}`}
+              className={`${styles.book} ${isActive ? styles.bookActive : ''}`}
               style={{
                 '--spine-bg': b.spineColor,
                 '--spine-text': b.spineTextColor ?? '#fff',
@@ -108,14 +150,14 @@ export default function Books({ items = [] }) {
               onPointerLeave={clearHoverTimer}
               onPointerCancel={clearHoverTimer}
             >
-              <span className="books-spine" aria-hidden={isActive}>
-                <span className="books-spine-label">
+              <span className={styles.spine} aria-hidden={isActive}>
+                <span className={styles.spineLabel}>
                   {b.title}
-                  <span className="books-spine-author"> — {b.author}</span>
+                  <span className={styles.spineAuthor}> — {b.author}</span>
                 </span>
               </span>
 
-              <span className="books-cover" aria-hidden={!isActive}>
+              <span className={styles.cover} aria-hidden={!isActive}>
                 {b.cover ? (
                   <Image
                     src={b.cover}
@@ -123,12 +165,12 @@ export default function Books({ items = [] }) {
                     fill
                     sizes="(max-width: 640px) 40vw, 200px"
                     priority={i === 0}
-                    className="books-cover-img"
+                    className={styles.coverImg}
                   />
                 ) : (
-                  <span className="books-cover-fallback" aria-hidden="true">
-                    <span className="books-cover-fallback-title">{b.title}</span>
-                    <span className="books-cover-fallback-author">{b.author}</span>
+                  <span className={styles.coverFallback} aria-hidden="true">
+                    <span className={styles.coverFallbackTitle}>{b.title}</span>
+                    <span className={styles.coverFallbackAuthor}>{b.author}</span>
                   </span>
                 )}
               </span>
@@ -141,181 +183,20 @@ export default function Books({ items = [] }) {
         id="books-panel"
         role="tabpanel"
         aria-labelledby={`book-tab-${active.slug}`}
-        className="books-meta"
+        className={styles.meta}
         aria-live="polite"
       >
-        <h3 className="books-book-title">{active.title}</h3>
-        <p className="books-book-author">{active.author}</p>
-        <p className="books-book-quote">&ldquo;{active.quote}&rdquo;</p>
+        <h3 className={styles.bookTitle}>{active.title}</h3>
+        <p className={styles.bookAuthor}>{active.author}</p>
+        {active.quote ? (
+          <>
+            <p className={styles.takeawayLabel}>My takeaway</p>
+            <p className={styles.bookQuote}>&ldquo;{active.quote}&rdquo;</p>
+          </>
+        ) : (
+          <p className={styles.takeawayPending}>Takeaway coming soon.</p>
+        )}
       </div>
-
-      <style jsx>{`
-        .books-section {
-          padding: 4.5rem 1.5rem;
-          max-width: 960px;
-          margin: 0 auto;
-        }
-        .books-heading {
-          font-family: 'Times New Roman', Georgia, serif;
-          font-style: italic;
-          font-weight: 400;
-          font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-          margin: 0 0 2rem;
-          letter-spacing: -0.01em;
-        }
-        .books-shelf {
-          display: flex;
-          align-items: flex-end;
-          gap: 4px;
-          height: 280px;
-          padding: 0 0 0.5rem;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-          perspective: 1200px;
-        }
-        .books-book {
-          position: relative;
-          flex: 0 0 32px;
-          height: 100%;
-          background: none;
-          border: 0;
-          padding: 0;
-          margin: 0;
-          cursor: pointer;
-          outline: none;
-          transition: flex-basis 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .books-book-active {
-          flex-basis: 190px;
-          cursor: default;
-        }
-        .books-book:focus-visible {
-          outline: 2px solid currentColor;
-          outline-offset: 3px;
-        }
-        .books-spine,
-        .books-cover {
-          position: absolute;
-          inset: 0;
-          border-radius: 2px 4px 4px 2px;
-          overflow: hidden;
-          transition:
-            opacity 320ms ease,
-            transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-          will-change: opacity, transform;
-        }
-        .books-spine {
-          background: var(--spine-bg, #334155);
-          color: var(--spine-text, #ffffff);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow:
-            inset -2px 0 0 rgba(0, 0, 0, 0.18),
-            inset 2px 0 0 rgba(255, 255, 255, 0.06);
-          opacity: 1;
-        }
-        .books-spine-label {
-          writing-mode: vertical-rl;
-          transform: rotate(180deg);
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 0.02em;
-          padding: 14px 4px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-height: 100%;
-        }
-        .books-spine-author {
-          font-weight: 400;
-          opacity: 0.78;
-        }
-        .books-cover {
-          opacity: 0;
-          transform: translateY(8px) scale(0.94) rotateY(-4deg);
-          background: #111;
-          box-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.1) inset,
-            0 10px 28px rgba(0, 0, 0, 0.22),
-            0 2px 6px rgba(0, 0, 0, 0.12);
-          transform-origin: left center;
-        }
-        .books-book-active .books-spine { opacity: 0; }
-        .books-book-active .books-cover {
-          opacity: 1;
-          transform: translateY(0) scale(1) rotateY(-4deg);
-        }
-        .books-cover-img { object-fit: cover; }
-        .books-cover-fallback {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          padding: 1rem 0.75rem;
-          color: rgba(255, 255, 255, 0.85);
-          background:
-            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.15)),
-            #1a1a1a;
-          gap: 0.5rem;
-        }
-        .books-cover-fallback-title {
-          font-family: 'Times New Roman', Georgia, serif;
-          font-style: italic;
-          font-size: 0.95rem;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
-        }
-        .books-cover-fallback-author {
-          font-size: 0.6rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          opacity: 0.7;
-        }
-        .books-meta {
-          margin-top: 1.75rem;
-          max-width: 560px;
-        }
-        .books-book-title {
-          font-family: 'Times New Roman', Georgia, serif;
-          font-style: italic;
-          font-weight: 400;
-          font-size: clamp(1.3rem, 2vw, 1.7rem);
-          margin: 0;
-          letter-spacing: -0.01em;
-        }
-        .books-book-author {
-          font-size: 0.75rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          margin: 0.35rem 0 0.9rem;
-          opacity: 0.65;
-        }
-        .books-book-quote {
-          font-size: 0.98rem;
-          line-height: 1.55;
-          margin: 0;
-          color: rgba(0, 0, 0, 0.72);
-        }
-        @media (max-width: 640px) {
-          .books-section { padding: 3rem 1.25rem; }
-          .books-shelf { height: 220px; }
-          .books-book { flex-basis: 26px; }
-          .books-book-active { flex-basis: 140px; }
-          .books-spine-label { font-size: 10px; padding: 10px 3px; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .books-book,
-          .books-spine,
-          .books-cover { transition-duration: 1ms !important; }
-        }
-        @media (prefers-color-scheme: dark) {
-          .books-shelf { border-bottom-color: rgba(255, 255, 255, 0.12); }
-          .books-book-quote { color: rgba(255, 255, 255, 0.78); }
-        }
-      `}</style>
     </section>
   )
 }

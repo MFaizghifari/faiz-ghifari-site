@@ -22,7 +22,8 @@
       "title": "Thinking, Fast and Slow",
       "author": "Daniel Kahneman",
       "quote": "The book that rewired how I notice my own reasoning. System 1 and System 2 are now the lenses I can't stop using.",
-      "spineColor": "#1f2a44"
+      "spineColor": "#1f2a44",
+      "cover": "/books/items/2/cover.jpg"
     },
     {
       "slug": "zero-to-one",
@@ -30,21 +31,174 @@
       "author": "Peter Thiel",
       "quote": "A short book with an unfashionable claim: most value comes from the parts of the problem nobody else has looked at.",
       "spineColor": "#eaeaea",
-      "spineTextColor": "#1a1a1a"
+      "spineTextColor": "#1a1a1a",
+      "cover": "/books/items/3/cover.jpg"
     },
     {
       "slug": "the-design-of-everyday-things",
       "title": "The Design of Everyday Things",
       "author": "Don Norman",
       "quote": "Once you read this, you can never un-see the bad door handles of the world. That's a compliment.",
-      "spineColor": "#d85a2a"
+      "spineColor": "#d85a2a",
+      "cover": "/books/items/4/cover.jpg"
     },
     {
       "slug": "range",
       "title": "Range",
       "author": "David Epstein",
       "quote": "A defence of generalists that finally made me stop apologising for having wide interests. The data is on our side.",
-      "spineColor": "#2e6b4a"
+      "spineColor": "#2e6b4a",
+      "cover": "/books/items/5/cover.jpg"
+    },
+    {
+      "slug": "elon-musk",
+      "title": "Elon Musk",
+      "author": "Ashlee Vance",
+      "quote": "",
+      "spineColor": "#1a1a1a",
+      "cover": "/books/items/6/cover.jpg"
+    },
+    {
+      "slug": "the-tipping-point",
+      "title": "The Tipping Point",
+      "author": "Malcolm Gladwell",
+      "quote": "",
+      "spineColor": "#e8b730",
+      "spineTextColor": "#1a1a1a",
+      "cover": "/books/items/7/cover.jpg"
+    },
+    {
+      "slug": "quiet",
+      "title": "Quiet",
+      "author": "Susan Cain",
+      "quote": "",
+      "spineColor": "#f1ede4",
+      "spineTextColor": "#2a2a2a",
+      "cover": "/books/items/8/cover.jpg"
+    },
+    {
+      "slug": "bad-blood",
+      "title": "Bad Blood",
+      "author": "John Carreyrou",
+      "quote": "",
+      "spineColor": "#9c1f1f",
+      "cover": "/books/items/9/cover.jpg"
+    },
+    {
+      "slug": "the-psychology-of-money",
+      "title": "The Psychology of Money",
+      "author": "Morgan Housel",
+      "quote": "",
+      "spineColor": "#1f4d3a",
+      "cover": "/books/items/10/cover.jpg"
+    },
+    {
+      "slug": "the-personal-mba",
+      "title": "The Personal MBA",
+      "author": "Josh Kaufman",
+      "quote": "",
+      "spineColor": "#2c4a7c",
+      "cover": "/books/items/11/cover.jpg"
+    },
+    {
+      "slug": "how-to-think-clearly",
+      "title": "The Art of Thinking Clearly",
+      "author": "Rolf Dobelli",
+      "quote": "",
+      "spineColor": "#c5b894",
+      "spineTextColor": "#2a2a2a",
+      "cover": "/books/items/12/cover.jpg"
+    },
+    {
+      "slug": "no-rules-rules",
+      "title": "No Rules Rules",
+      "author": "Reed Hastings & Erin Meyer",
+      "quote": "",
+      "spineColor": "#0d0d0d",
+      "cover": "/books/items/13/cover.jpg"
+    },
+    {
+      "slug": "principles",
+      "title": "Principles",
+      "author": "Ray Dalio",
+      "quote": "",
+      "spineColor": "#b03030",
+      "cover": "/books/items/14/cover.jpg"
+    },
+    {
+      "slug": "sirah-nabawiyah",
+      "title": "Sirah Nabawiyah",
+      "author": "Syaikh Shafiyyurrahman al-Mubarakfuri",
+      "quote": "",
+      "spineColor": "#1a4d3a",
+      "cover": "/books/items/15/cover.jpg"
+    },
+    {
+      "slug": "what-you-do-is-who-you-are",
+      "title": "What You Do Is Who You Are",
+      "author": "Ben Horowitz",
+      "quote": "",
+      "spineColor": "#0a0a0a",
+      "cover": "/books/items/16/cover.jpg"
+    },
+    {
+      "slug": "the-1-page-marketing-plan",
+      "title": "The 1-Page Marketing Plan",
+      "author": "Allan Dib",
+      "quote": "",
+      "spineColor": "#3d6a96",
+      "cover": "/books/items/17/cover.jpg"
+    },
+    {
+      "slug": "crucial-conversations",
+      "title": "Crucial Conversations",
+      "author": "Patterson, Grenny, McMillan & Switzler",
+      "quote": "",
+      "spineColor": "#6e1a2c",
+      "cover": "/books/items/18/cover.jpg"
+    },
+    {
+      "slug": "hatching-twitter",
+      "title": "Hatching Twitter",
+      "author": "Nick Bilton",
+      "quote": "",
+      "spineColor": "#69a7d6",
+      "spineTextColor": "#1a1a1a",
+      "cover": "/books/items/19/cover.jpg"
+    },
+    {
+      "slug": "nudge",
+      "title": "Nudge",
+      "author": "Richard H. Thaler & Cass R. Sunstein",
+      "quote": "",
+      "spineColor": "#f0c75e",
+      "spineTextColor": "#1a1a1a",
+      "cover": "/books/items/20/cover.jpg"
+    },
+    {
+      "slug": "the-making-of-a-manager",
+      "title": "The Making of a Manager",
+      "author": "Julie Zhuo",
+      "quote": "",
+      "spineColor": "#d8809b",
+      "spineTextColor": "#1a1a1a",
+      "cover": "/books/items/21/cover.jpg"
+    },
+    {
+      "slug": "the-pyramid-principle",
+      "title": "The Pyramid Principle",
+      "author": "Barbara Minto",
+      "quote": "",
+      "spineColor": "#34465c",
+      "cover": "/books/items/22/cover.jpg"
+    },
+    {
+      "slug": "bulletproof-problem-solving",
+      "title": "Bulletproof Problem Solving",
+      "author": "Charles Conn & Robert McLean",
+      "quote": "",
+      "spineColor": "#475763",
+      "cover": "/books/items/23/cover.jpg"
     }
   ]
 }

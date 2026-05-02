@@ -8,6 +8,10 @@ html,
 body {
   margin: 0;
   padding: 0;
+  /* Definitive guard: no descendant can ever push the page horizontally.
+     `clip` (vs `hidden`) is required because Nav uses position: sticky;
+     `hidden` on <html> breaks sticky in Safari/iOS. */
+  overflow-x: clip;
 }
 
 body {
