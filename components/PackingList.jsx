@@ -137,7 +137,19 @@ const BASE_ITEMS = [
 
 const STORAGE_KEY = 'fg.packinglist.v1'
 
-const initialDays = { teaching: 0, diving: 0, leisure: 0, drone: 0 }
+const EMPTY_DAYS = { teaching: 0, diving: 0, leisure: 0, drone: 0 }
+
+// Build the slots array (ordered list of day-type ids in the order they
+// were added) from a legacy { teaching, diving, leisure, drone } counts
+// object — used when loading old localStorage data that predates the
+// ordered-slots model.
+function buildSlotsFromCounts(counts) {
+  const out = []
+  DAY_TYPES.forEach((t) => {
+    for (let i = 0; i < (counts[t.id] || 0); i++) out.push(t.id)
+  })
+  return out
+}
 
 function calcQty(qtyKey, days) {
   const total = Object.values(days).reduce((a, b) => a + b, 0)
@@ -198,7 +210,13 @@ function Stepper({ value, onChange, ariaLabel }) {
 
 export default function PackingList() {
   const [tripName, setTripName]       = useState('')
-  const [days, setDays]               = useState(initialDays)
+  // Source of truth for the trip configuration is the ordered slots
+  // array: each element is a day-type id, in the chronological order
+  // the user added it via the + buttons. The legacy `days` count map
+  // is derived from this. Storing the order means the timeline can
+  // reflect "leisure first, then dive, then leisure" as H1 H2 H3
+  // instead of grouping by type.
+  const [slots, setSlots]             = useState([])
   const [checked, setChecked]         = useState({})
   const [customItems, setCustomItems] = useState([])
   const [newItemText, setNewItemText] = useState('')
@@ -207,14 +225,20 @@ export default function PackingList() {
 
   // Restore state from localStorage on mount. Done in useEffect so SSR
   // and first-paint render the empty defaults — avoids hydration mismatch.
+  // Also handles the legacy `days` shape: if the stored data has counts
+  // but no ordered slots, rebuild slots from counts using DAY_TYPES order.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw) {
         const data = JSON.parse(raw)
         if (typeof data.tripName === 'string') setTripName(data.tripName)
-        if (data.days && typeof data.days === 'object') {
-          setDays({ ...initialDays, ...data.days })
+        if (Array.isArray(data.slots)) {
+          // Filter to known type ids defensively (in case DAY_TYPES changed).
+          const known = new Set(DAY_TYPES.map((t) => t.id))
+          setSlots(data.slots.filter((id) => known.has(id)))
+        } else if (data.days && typeof data.days === 'object') {
+          setSlots(buildSlotsFromCounts(data.days))
         }
         if (data.checked && typeof data.checked === 'object') setChecked(data.checked)
         if (Array.isArray(data.customItems)) setCustomItems(data.customItems)
@@ -231,21 +255,41 @@ export default function PackingList() {
     try {
       localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ tripName, days, checked, customItems })
+        JSON.stringify({ tripName, slots, checked, customItems })
       )
     } catch {
       // ignore quota / private-mode errors
     }
-  }, [tripName, days, checked, customItems, hydrated])
+  }, [tripName, slots, checked, customItems, hydrated])
 
-  const totalDays = useMemo(
-    () => Object.values(days).reduce((a, b) => a + b, 0),
-    [days]
-  )
+  // Derive count-per-type from the ordered slots. Always returns all 4
+  // keys (with 0 fallback) so callers can read days[type.id] safely
+  // regardless of whether that type has been used yet.
+  const days = useMemo(() => {
+    const d = { ...EMPTY_DAYS }
+    slots.forEach((id) => {
+      if (id in d) d[id]++
+    })
+    return d
+  }, [slots])
+
+  const totalDays = slots.length
   const activeTypes = useMemo(
     () => DAY_TYPES.map((t) => t.id).filter((k) => days[k] > 0),
     [days]
   )
+
+  // Stepper handlers — operate on the ordered slots array, not the
+  // counts. Increment appends; decrement removes the *last* occurrence
+  // of that type so earlier slots (and their position in the timeline)
+  // stay stable.
+  const incrementType = (typeId) => setSlots((prev) => [...prev, typeId])
+  const decrementType = (typeId) =>
+    setSlots((prev) => {
+      const lastIdx = prev.lastIndexOf(typeId)
+      if (lastIdx === -1) return prev
+      return [...prev.slice(0, lastIdx), ...prev.slice(lastIdx + 1)]
+    })
 
   const filteredItems = useMemo(() => {
     if (activeTypes.length === 0) return []
@@ -267,15 +311,12 @@ export default function PackingList() {
   const done = filteredItems.filter((i) => checked[i.id]).length
   const pct = total === 0 ? 0 : Math.round((done / total) * 100)
 
+  // Timeline display: walk the ordered slots array. The user pressed
+  // these in this order, so H1, H2, H3… match the order of additions.
   const daySlots = useMemo(() => {
-    const slots = []
-    DAY_TYPES.forEach((t) => {
-      for (let i = 0; i < days[t.id]; i++) {
-        slots.push({ ...t, n: slots.length + 1 })
-      }
-    })
-    return slots
-  }, [days])
+    const typeById = Object.fromEntries(DAY_TYPES.map((t) => [t.id, t]))
+    return slots.map((id, i) => ({ ...typeById[id], n: i + 1 }))
+  }, [slots])
 
   const addCustomItem = () => {
     if (!newItemText.trim()) return
@@ -366,7 +407,10 @@ export default function PackingList() {
                 </div>
                 <Stepper
                   value={days[type.id]}
-                  onChange={(v) => setDays((p) => ({ ...p, [type.id]: v }))}
+                  onChange={(v) => {
+                    if (v > days[type.id]) incrementType(type.id)
+                    else decrementType(type.id)
+                  }}
                   ariaLabel={`${type.label} day count`}
                 />
               </div>
