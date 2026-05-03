@@ -1,0 +1,478 @@
+/* ----------------------------------------------------------------------
+   Packing list — monochrome adaptation of the original colorful spec.
+   Design language matches the rest of faizghifari.com:
+   1px solid black borders, Inter sans, eyebrow labels (uppercase +
+   0.18em letter-spacing), black/white invert on hover, no rounded
+   corners beyond minimal.
+---------------------------------------------------------------------- */
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) var(--space-gutter)
+    clamp(3rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  min-height: calc(100vh - 80px);
+}
+
+.back {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-black);
+  transition: opacity var(--transition);
+}
+.back::before { content: '← '; }
+.back:hover { opacity: 0.6; }
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.heading {
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.intro {
+  color: var(--color-muted);
+  font-size: var(--fs-base);
+  max-width: 52ch;
+}
+
+.eyebrow {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+/* ── Trip name input — minimal underline-only field ─────────────── */
+.tripName {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: var(--border);
+  padding: 0.5rem 0;
+  font-family: inherit;
+  font-size: clamp(1.5rem, 3.2vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-black);
+  outline: none;
+}
+.tripName::placeholder {
+  color: var(--color-muted);
+  opacity: 0.55;
+}
+.tripName:focus {
+  border-bottom-width: 2px;
+  margin-bottom: -1px;
+}
+
+/* ── Section block (configurator, checklist, etc.) ──────────────── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Day-type configurator grid ─────────────────────────────────── */
+.typeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0;
+  border-top: var(--border);
+  border-left: var(--border);
+}
+
+.typeCard {
+  border-right: var(--border);
+  border-bottom: var(--border);
+  padding: 1.25rem 1.5rem;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: background var(--transition), color var(--transition);
+}
+.typeCardActive {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.typeMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.typeLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.typeDays {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-muted);
+  transition: color var(--transition);
+}
+.typeCardActive .typeDays { color: rgba(255, 255, 255, 0.65); }
+
+/* ── Stepper ────────────────────────────────────────────────────── */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: var(--border);
+  background: var(--color-white);
+}
+.typeCardActive .stepper { border-color: var(--color-white); }
+
+.stepBtn {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-right: var(--border);
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.stepBtn:last-child { border-right: none; border-left: var(--border); }
+.typeCardActive .stepBtn {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+.stepBtn:hover:not(:disabled) {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.typeCardActive .stepBtn:hover:not(:disabled) {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+.stepBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.stepCount {
+  min-width: 44px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* ── Quantity legend ────────────────────────────────────────────── */
+.qtyLegend {
+  border: var(--border);
+  background: var(--color-surface);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  row-gap: 0.4rem;
+  align-items: baseline;
+}
+.qtyLegendLabel {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+.qtyLegendItem {
+  font-size: var(--fs-small);
+  color: var(--color-black);
+}
+.qtyLegendItem strong {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ── Timeline chips ─────────────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border: var(--border);
+  background: var(--color-white);
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+.chipNum { color: var(--color-muted); }
+.chipCode {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ── Progress (above checklist) ─────────────────────────────────── */
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.progressTrack {
+  flex: 1;
+  height: 2px;
+  background: var(--color-surface);
+  position: relative;
+}
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--color-black);
+  transition: width 0.35s ease;
+}
+.progressLabel {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+/* ── Checklist groups ───────────────────────────────────────────── */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0;
+  border-top: var(--border);
+  border-left: var(--border);
+}
+.group {
+  border-right: var(--border);
+  border-bottom: var(--border);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: var(--border);
+}
+.groupTitle {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+.groupCount {
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+/* ── Item row ───────────────────────────────────────────────────── */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.itemChecked { opacity: 0.4; }
+
+/* Visually hide the native checkbox but keep it keyboard-focusable.
+   The wrapping <label> still toggles it on click; tab + space still
+   work; assistive tech reads the actual checked state. */
+.srOnlyCheckbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.srOnlyCheckbox:focus-visible + .checkbox {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border: var(--border);
+  background: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.checkboxChecked {
+  background: var(--color-black);
+}
+.checkboxIcon { display: block; }
+
+.itemLabel {
+  flex: 1;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--color-black);
+}
+.itemChecked .itemLabel { text-decoration: line-through; }
+
+.qtyBadge {
+  flex-shrink: 0;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  padding: 0.15rem 0.45rem;
+  border: var(--border);
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+/* ── Custom item input ──────────────────────────────────────────── */
+.customCard {
+  border: 1px dashed var(--color-black);
+  background: var(--color-white);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.customForm {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.customField {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.65rem 0.85rem;
+  border: var(--border);
+  background: var(--color-white);
+  font-family: inherit;
+  font-size: var(--fs-small);
+  color: var(--color-black);
+  outline: none;
+}
+.customField:focus { background: var(--color-surface); }
+.customCat { flex: 0 0 160px; min-width: 160px; }
+
+.customAdd {
+  padding: 0.65rem 1.5rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: var(--border);
+  font-family: inherit;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.customAdd:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+/* ── Footer (status + reset) ────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: var(--border);
+}
+.status {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+}
+.statusDone {
+  color: var(--color-black);
+  font-weight: 500;
+}
+.reset {
+  padding: 0.55rem 1.1rem;
+  background: transparent;
+  color: var(--color-black);
+  border: var(--border);
+  font-family: inherit;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.reset:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+/* ── Empty state ────────────────────────────────────────────────── */
+.empty {
+  border: 1px dashed var(--color-muted);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--color-muted);
+}
+.emptyLabel {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+}
+
+/* ── Mobile tweaks ──────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .typeCard {
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+  }
+  .group { padding: 1rem 1.25rem; }
+  .footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+  .reset { align-self: flex-start; }
+  .customCat { flex: 1 1 100%; }
+}
