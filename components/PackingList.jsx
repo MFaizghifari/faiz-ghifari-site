@@ -22,14 +22,36 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import styles from './PackingList.module.css'
 
-// Single-letter codes used on timeline chips (kept distinct: N/D/L/F).
-// Full labels show in the configurator and item categories.
+// Each day type carries a single-letter code (kept distinct: N/D/L/F) and
+// an emoji used as a playful icon on configurator cards and timeline chips.
+// Emojis are tonally neutral here — they're typographic glyphs, no extra
+// colors to manage on the otherwise monochrome page.
 const DAY_TYPES = [
-  { id: 'teaching', label: 'Ngajar / Training', code: 'N' },
-  { id: 'diving',   label: 'Diving',            code: 'D' },
-  { id: 'leisure',  label: 'Leisure / Extend',  code: 'L' },
-  { id: 'drone',    label: 'Drone Shoot',       code: 'F' },
+  { id: 'teaching', label: 'Ngajar / Training', code: 'N', emoji: '📋' },
+  { id: 'diving',   label: 'Diving',            code: 'D', emoji: '🤿' },
+  { id: 'leisure',  label: 'Leisure / Extend',  code: 'L', emoji: '🌴' },
+  { id: 'drone',    label: 'Drone Shoot',       code: 'F', emoji: '🚁' },
 ]
+
+// Icon per item category — restored from the original spec. Categories
+// not listed here render without an icon (graceful fallback).
+const CATEGORY_ICONS = {
+  'Pakaian Formal':     '👔',
+  'Pakaian Santai':     '👕',
+  'Gear Ngajar':        '🖥️',
+  'Dive Gear':          '🤿',
+  'Dive Dokumen':       '📄',
+  'Dive Pakaian':       '🩱',
+  'Dive Aksesori':      '🎒',
+  'Dive Kesehatan':     '💊',
+  'Dive Kamera':        '📸',
+  'Drone Kit':          '🚁',
+  'Drone Dokumen':      '📋',
+  'Tech':               '⚡',
+  'Toiletries':         '🧴',
+  'Muslim Essentials':  '🕌',
+  'Dokumen':            '🪪',
+}
 
 // qty: null = no badge; "days" = totalDays; "days_plus1" = totalDays + 1;
 // "half_days" = ceil(total/2); a DAY_TYPES.id = that type's day count.
@@ -333,6 +355,9 @@ export default function PackingList() {
                 key={type.id}
                 className={`${styles.typeCard} ${active ? styles.typeCardActive : ''}`}
               >
+                <span className={styles.typeIcon} aria-hidden="true">
+                  {type.emoji}
+                </span>
                 <div className={styles.typeMeta}>
                   <span className={styles.typeLabel}>{type.label}</span>
                   <span className={styles.typeDays}>
@@ -381,7 +406,9 @@ export default function PackingList() {
               {daySlots.map((slot) => (
                 <span key={slot.id + '-' + slot.n} className={styles.chip}>
                   <span className={styles.chipNum}>H{slot.n}</span>
-                  <span className={styles.chipCode}>{slot.code}</span>
+                  <span className={styles.chipIcon} aria-hidden="true">
+                    {slot.emoji}
+                  </span>
                   <span>{slot.label.split(' / ')[0]}</span>
                 </span>
               ))}
@@ -420,7 +447,14 @@ export default function PackingList() {
                 return (
                   <div key={cat} className={styles.group}>
                     <div className={styles.groupHead}>
-                      <span className={styles.groupTitle}>{cat}</span>
+                      <span className={styles.groupTitle}>
+                        {CATEGORY_ICONS[cat] && (
+                          <span className={styles.groupIcon} aria-hidden="true">
+                            {CATEGORY_ICONS[cat]}
+                          </span>
+                        )}
+                        {cat}
+                      </span>
                       <span className={styles.groupCount}>
                         {groupDone}/{items.length}
                       </span>

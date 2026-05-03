@@ -113,10 +113,23 @@
   color: var(--color-white);
 }
 
+/* Emoji icon at the start of each day-type card. Sized large enough to
+   read at a glance, but not so large it dominates the typography. */
+.typeIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+  flex-shrink: 0;
+  /* Keep the emoji rendering full-color even when the card is in dark
+     mode — emoji glyphs already work on both white and black backgrounds. */
+}
+
 .typeMeta {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  /* Take available width so the stepper sits flush right. */
+  flex: 1;
+  min-width: 0;
 }
 .typeLabel {
   font-size: 1rem;
@@ -132,15 +145,22 @@
 }
 .typeCardActive .typeDays { color: rgba(255, 255, 255, 0.65); }
 
-/* ── Stepper ────────────────────────────────────────────────────── */
+/* ── Stepper ────────────────────────────────────────────────────────
+   The stepper renders as a small white "control surface" inside whatever
+   card it sits in. When the parent card goes dark (.typeCardActive), we
+   deliberately do NOT cascade the white text/border color into the
+   stepper — that would make the count and +/- glyphs render white-on-
+   white inside the still-white stepper background and disappear.
+─────────────────────────────────────────────────────────────────── */
 .stepper {
   display: inline-flex;
   align-items: center;
   gap: 0;
   border: var(--border);
   background: var(--color-white);
+  /* Insulate stepper internals from the active card's white color cascade. */
+  color: var(--color-black);
 }
-.typeCardActive .stepper { border-color: var(--color-white); }
 
 .stepBtn {
   width: 36px;
@@ -151,22 +171,16 @@
   font-family: inherit;
   font-size: 1.1rem;
   font-weight: 500;
-  color: var(--color-black);
+  /* color inherited from .stepper (black) — stays readable on white bg
+     even when the wrapping card is in dark mode. */
+  color: inherit;
   cursor: pointer;
   transition: background var(--transition), color var(--transition);
 }
 .stepBtn:last-child { border-right: none; border-left: var(--border); }
-.typeCardActive .stepBtn {
-  border-color: var(--color-white);
-  color: var(--color-white);
-}
 .stepBtn:hover:not(:disabled) {
   background: var(--color-black);
   color: var(--color-white);
-}
-.typeCardActive .stepBtn:hover:not(:disabled) {
-  background: var(--color-white);
-  color: var(--color-black);
 }
 .stepBtn:disabled {
   opacity: 0.3;
@@ -182,6 +196,8 @@
   font-variant-numeric: tabular-nums;
   font-size: 0.95rem;
   font-weight: 600;
+  /* Same insulation reason as .stepper above. */
+  color: var(--color-black);
 }
 
 /* ── Quantity legend ────────────────────────────────────────────── */
@@ -230,9 +246,13 @@
   font-variant-numeric: tabular-nums;
 }
 .chipNum { color: var(--color-muted); }
-.chipCode {
-  font-weight: 700;
-  letter-spacing: 0.05em;
+.chipIcon {
+  /* Reset the chip's letter-spacing and uppercase so the emoji glyph
+     renders cleanly without sliding sideways. */
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 /* ── Progress (above checklist) ─────────────────────────────────── */
@@ -292,6 +312,16 @@
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.groupIcon {
+  /* Emoji should not pick up the eyebrow's uppercase + letter-spacing. */
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 1.05rem;
+  line-height: 1;
 }
 .groupCount {
   font-size: var(--fs-eyebrow);
