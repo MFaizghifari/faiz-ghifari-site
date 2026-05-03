@@ -76,3 +76,56 @@
 .card:hover .detail {
   color: rgba(255, 255, 255, 0.7);
 }
+
+/* ----------------------------------------------------------------------
+   Mobile "Show more" toggle
+   - Desktop: all cards always visible, button is hidden.
+   - Mobile (≤720px): cards beyond MOBILE_COLLAPSED_COUNT are hidden until
+     the user clicks the button. Button toggles `gridExpanded` on the grid
+     to reveal them.
+---------------------------------------------------------------------- */
+
+.toggle {
+  /* Hidden on desktop — all cards already visible. */
+  display: none;
+}
+
+.toggleArrow {
+  margin-left: 0.5rem;
+  font-size: 0.85em;
+  transition: transform var(--transition);
+}
+
+@media (max-width: 720px) {
+  .cardOverflow {
+    display: none;
+  }
+  .gridExpanded .cardOverflow {
+    /* Restore the card's normal flex layout when expanded. */
+    display: flex;
+  }
+
+  .toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto 0;
+    padding: 0.85rem 1.5rem;
+    background: var(--color-white);
+    color: var(--color-black);
+    border: var(--border);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+    transition: background var(--transition), color var(--transition);
+  }
+
+  .toggle:hover,
+  .toggle:focus-visible {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+}
