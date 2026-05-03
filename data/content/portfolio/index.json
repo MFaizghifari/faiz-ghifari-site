@@ -121,22 +121,26 @@
     {
       "name": "Siloam Hospital",
       "detail": "AI Training for nationwide employees in GenAI Adoption",
+      "logo": "/logos/siloam.svg",
       "size": "default"
     },
     {
       "name": "Kumon",
       "detail": "Softskill & Culture Training for Head Office Team",
+      "logo": "/logos/kumon.svg",
       "size": "default"
     },
     {
       "name": "Peruri",
       "detail": "Softskill Training for Head Office Team",
+      "logo": "/logos/peruri.svg",
       "size": "default"
     },
     {
       "name": "Kemendagri",
       "detail": "AI Adoption Training & Consultations for 200 staff of Kemendagri",
-      "size": "default"
+      "logo": "/logos/kemendagri.svg",
+      "size": "seal"
     }
   ]
 }
