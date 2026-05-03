@@ -3,14 +3,17 @@
 /**
  * Packing list — configurable trip checklist.
  *
- * The user mixes 4 day types in a single trip (training, diving, leisure,
- * drone shoot). Setting the day count for each type filters which base
- * items appear, and quantities of certain items (underwear, t-shirts,
- * rashguards, etc.) auto-scale with the day count.
+ * Two configuration concepts:
+ *   - Day types (training, diving, leisure): counted via stepper, contribute
+ *     to the chronological timeline (H1, H2…), and certain item quantities
+ *     scale with the day count (underwear, t-shirts, rashguards, etc.).
+ *   - Activities (drone shoot): toggled on/off. Activities don't take day
+ *     slots in the timeline — they just unlock the corresponding gear
+ *     categories in the checklist.
  *
  * State persists to localStorage so the user can return to the page mid-
- * packing without losing checks. Trip name + day counts + checked items
- * + custom items are all saved under a single key.
+ * packing without losing checks. Trip name + slots + activities + checked
+ * items + custom items are all saved under a single key.
  *
  * Visual language matches faizghifari.com: monochrome, 1px borders,
  * Inter font, eyebrow uppercase labels. The original spec was a vivid
@@ -22,15 +25,20 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import styles from './PackingList.module.css'
 
-// Each day type carries a single-letter code (kept distinct: N/D/L/F) and
-// an emoji used as a playful icon on configurator cards and timeline chips.
-// Emojis are tonally neutral here — they're typographic glyphs, no extra
-// colors to manage on the otherwise monochrome page.
+// Day types contribute to the trip's day count and timeline. Each carries
+// a code letter (kept distinct: N/D/L) and a playful emoji icon.
 const DAY_TYPES = [
   { id: 'teaching', label: 'Ngajar / Training', code: 'N', emoji: '📋' },
   { id: 'diving',   label: 'Diving',            code: 'D', emoji: '🤿' },
   { id: 'leisure',  label: 'Leisure / Extend',  code: 'L', emoji: '🌴' },
-  { id: 'drone',    label: 'Drone Shoot',       code: 'F', emoji: '🚁' },
+]
+
+// Activities are things you bring on the trip but don't allocate days for.
+// Toggle on → corresponding item categories (e.g. Drone Kit, Drone Dokumen)
+// appear in the checklist, regardless of day-type counts. They never
+// appear in the H1/H2/H3 timeline.
+const ACTIVITIES = [
+  { id: 'drone', label: 'Drone Shoot', emoji: '🚁' },
 ]
 
 // Icon per item category — restored from the original spec. Categories
@@ -137,7 +145,11 @@ const BASE_ITEMS = [
 
 const STORAGE_KEY = 'fg.packinglist.v1'
 
-const EMPTY_DAYS = { teaching: 0, diving: 0, leisure: 0, drone: 0 }
+const EMPTY_DAYS = DAY_TYPES.reduce((a, t) => ({ ...a, [t.id]: 0 }), {})
+const EMPTY_ACTIVITIES = ACTIVITIES.reduce(
+  (a, x) => ({ ...a, [x.id]: false }),
+  {}
+)
 
 // Build the slots array (ordered list of day-type ids in the order they
 // were added) from a legacy { teaching, diving, leisure, drone } counts
@@ -150,6 +162,11 @@ function buildSlotsFromCounts(counts) {
   })
   return out
 }
+
+// IDs that belong in the day-type slots (exclude legacy "drone" entries
+// that pre-date the day/activity split).
+const DAY_TYPE_IDS = new Set(DAY_TYPES.map((t) => t.id))
+const ACTIVITY_IDS = new Set(ACTIVITIES.map((a) => a.id))
 
 function calcQty(qtyKey, days) {
   const total = Object.values(days).reduce((a, b) => a + b, 0)
@@ -217,6 +234,9 @@ export default function PackingList() {
   // reflect "leisure first, then dive, then leisure" as H1 H2 H3
   // instead of grouping by type.
   const [slots, setSlots]             = useState([])
+  // Activities are independent on/off toggles (e.g. drone shoot) — they
+  // unlock checklist categories without taking a day slot in the timeline.
+  const [activities, setActivities]   = useState(EMPTY_ACTIVITIES)
   const [checked, setChecked]         = useState({})
   const [customItems, setCustomItems] = useState([])
   const [newItemText, setNewItemText] = useState('')
@@ -225,21 +245,44 @@ export default function PackingList() {
 
   // Restore state from localStorage on mount. Done in useEffect so SSR
   // and first-paint render the empty defaults — avoids hydration mismatch.
-  // Also handles the legacy `days` shape: if the stored data has counts
-  // but no ordered slots, rebuild slots from counts using DAY_TYPES order.
+  // Handles three storage shapes:
+  //   v1: { days: {teaching, diving, leisure, drone} }     — drone was a day
+  //   v2: { slots: [...with possible 'drone' entries] }     — drone was a day
+  //   v3: { slots: [...no 'drone'], activities: {drone:bool} } — current
+  // Drone entries from v1/v2 are migrated into activities.drone = true.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw) {
         const data = JSON.parse(raw)
         if (typeof data.tripName === 'string') setTripName(data.tripName)
+
+        // Slots: take ordered slots if present, else rebuild from counts.
+        // Either way, strip out any ids that aren't day types (drone) and
+        // remember whether we found any so we can flip the activity on.
+        let inferredActivities = { ...EMPTY_ACTIVITIES }
         if (Array.isArray(data.slots)) {
-          // Filter to known type ids defensively (in case DAY_TYPES changed).
-          const known = new Set(DAY_TYPES.map((t) => t.id))
-          setSlots(data.slots.filter((id) => known.has(id)))
+          const dayOnly = []
+          data.slots.forEach((id) => {
+            if (DAY_TYPE_IDS.has(id)) dayOnly.push(id)
+            else if (ACTIVITY_IDS.has(id)) inferredActivities[id] = true
+          })
+          setSlots(dayOnly)
         } else if (data.days && typeof data.days === 'object') {
           setSlots(buildSlotsFromCounts(data.days))
+          ACTIVITIES.forEach((a) => {
+            if ((data.days[a.id] || 0) > 0) inferredActivities[a.id] = true
+          })
         }
+
+        // Apply explicit activities if stored (current shape) — falls
+        // back to whatever we inferred from the legacy data above.
+        if (data.activities && typeof data.activities === 'object') {
+          setActivities({ ...inferredActivities, ...data.activities })
+        } else if (Object.values(inferredActivities).some(Boolean)) {
+          setActivities(inferredActivities)
+        }
+
         if (data.checked && typeof data.checked === 'object') setChecked(data.checked)
         if (Array.isArray(data.customItems)) setCustomItems(data.customItems)
       }
@@ -255,12 +298,12 @@ export default function PackingList() {
     try {
       localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ tripName, slots, checked, customItems })
+        JSON.stringify({ tripName, slots, activities, checked, customItems })
       )
     } catch {
       // ignore quota / private-mode errors
     }
-  }, [tripName, slots, checked, customItems, hydrated])
+  }, [tripName, slots, activities, checked, customItems, hydrated])
 
   // Derive count-per-type from the ordered slots. Always returns all 4
   // keys (with 0 fallback) so callers can read days[type.id] safely
@@ -291,13 +334,23 @@ export default function PackingList() {
       return [...prev.slice(0, lastIdx), ...prev.slice(lastIdx + 1)]
     })
 
+  // An item is "in scope" if any of its declared types matches an active
+  // day-type OR an active activity. Day types are toggled by setting their
+  // count > 0; activities are toggled by the activity card.
+  const activeKeys = useMemo(() => {
+    const onActivities = ACTIVITIES.map((a) => a.id).filter(
+      (id) => activities[id]
+    )
+    return [...activeTypes, ...onActivities]
+  }, [activeTypes, activities])
+
   const filteredItems = useMemo(() => {
-    if (activeTypes.length === 0) return []
+    if (activeKeys.length === 0) return []
     return [
-      ...BASE_ITEMS.filter((item) => item.types.some((t) => activeTypes.includes(t))),
-      ...customItems.filter((item) => item.types.some((t) => activeTypes.includes(t))),
+      ...BASE_ITEMS.filter((item) => item.types.some((t) => activeKeys.includes(t))),
+      ...customItems.filter((item) => item.types.some((t) => activeKeys.includes(t))),
     ]
-  }, [activeTypes, customItems])
+  }, [activeKeys, customItems])
 
   const grouped = useMemo(() => {
     return filteredItems.reduce((acc, item) => {
@@ -326,9 +379,9 @@ export default function PackingList() {
         id: 'c_' + Date.now(),
         label: newItemText.trim(),
         category: newItemCat.trim() || 'General',
-        // Default custom items to all currently-active types so they always
-        // appear in the current trip context.
-        types: activeTypes.length ? activeTypes : ['leisure'],
+        // Default custom items to all currently-active keys (day types +
+        // activities) so they always appear in the current trip context.
+        types: activeKeys.length ? activeKeys : ['leisure'],
         qty: null,
       },
     ])
@@ -345,12 +398,20 @@ export default function PackingList() {
     setChecked({})
   }
 
-  const totalDaysSummary = totalDays > 0
-    ? `${totalDays} hari · ` +
-      DAY_TYPES.filter((t) => days[t.id] > 0)
-        .map((t) => `${days[t.id]}h ${t.label.split(' / ')[0]}`)
-        .join(' · ')
-    : 'Set jumlah hari per tipe untuk mulai'
+  const summaryParts = []
+  if (totalDays > 0) {
+    summaryParts.push(`${totalDays} hari`)
+    DAY_TYPES.filter((t) => days[t.id] > 0).forEach((t) =>
+      summaryParts.push(`${days[t.id]}h ${t.label.split(' / ')[0]}`)
+    )
+  }
+  ACTIVITIES.filter((a) => activities[a.id]).forEach((a) =>
+    summaryParts.push(`+ ${a.label.split(' / ')[0]}`)
+  )
+  const totalDaysSummary =
+    summaryParts.length > 0
+      ? summaryParts.join(' · ')
+      : 'Set jumlah hari atau aktivitas untuk mulai'
 
   return (
     <div className={styles.wrap}>
@@ -386,7 +447,7 @@ export default function PackingList() {
 
       <section className={styles.section} aria-labelledby="config-heading">
         <span id="config-heading" className={styles.eyebrow}>
-          Konfigurasi trip
+          Tipe hari
         </span>
         <div className={styles.typeGrid}>
           {DAY_TYPES.map((type) => {
@@ -413,6 +474,40 @@ export default function PackingList() {
                   }}
                   ariaLabel={`${type.label} day count`}
                 />
+              </div>
+            )
+          })}
+        </div>
+
+        <span className={styles.eyebrow}>Aktivitas</span>
+        <div className={styles.typeGrid}>
+          {ACTIVITIES.map((act) => {
+            const on = !!activities[act.id]
+            return (
+              <div
+                key={act.id}
+                className={`${styles.typeCard} ${on ? styles.typeCardActive : ''}`}
+              >
+                <span className={styles.typeIcon} aria-hidden="true">
+                  {act.emoji}
+                </span>
+                <div className={styles.typeMeta}>
+                  <span className={styles.typeLabel}>{act.label}</span>
+                  <span className={styles.typeDays}>
+                    {on ? 'Aktif' : 'Tidak aktif'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className={`${styles.activityToggle} ${on ? styles.activityToggleOn : ''}`}
+                  onClick={() =>
+                    setActivities((p) => ({ ...p, [act.id]: !p[act.id] }))
+                  }
+                  aria-pressed={on}
+                  aria-label={`Toggle ${act.label}`}
+                >
+                  {on ? '✓ Aktif' : 'Tambah'}
+                </button>
               </div>
             )
           })}
@@ -461,10 +556,10 @@ export default function PackingList() {
         )}
       </section>
 
-      {activeTypes.length === 0 ? (
+      {activeKeys.length === 0 ? (
         <div className={styles.empty}>
           <span className={styles.emptyLabel}>
-            Set jumlah hari di atas untuk mulai
+            Set jumlah hari atau aktifkan aktivitas di atas untuk mulai
           </span>
         </div>
       ) : (

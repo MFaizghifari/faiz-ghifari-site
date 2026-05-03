@@ -200,6 +200,36 @@
   color: var(--color-black);
 }
 
+/* ── Activity toggle (single button, replaces stepper for activities) ─
+   Activities are on/off, so they get one button instead of −/count/+.
+   Same color insulation as the stepper: stays black-on-white even when
+   the surrounding card is in dark/active mode. */
+.activityToggle {
+  height: 36px;
+  padding: 0 1rem;
+  background: var(--color-white);
+  border: var(--border);
+  font-family: inherit;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.activityToggle:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.activityToggleOn {
+  /* Slightly different visual to make the active state read at a glance
+     without breaking the monochrome palette. */
+  background: var(--color-white);
+  color: var(--color-black);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Quantity legend ────────────────────────────────────────────── */
 .qtyLegend {
   border: var(--border);
