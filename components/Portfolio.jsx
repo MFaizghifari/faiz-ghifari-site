@@ -46,7 +46,7 @@ export default function Portfolio() {
                       : c.size === 'wide'
                       ? ` ${styles.logoWide}`
                       : ''
-                  }`}
+                  }${c.colorMode === 'inverted' ? ` ${styles.logoInverted}` : ''}`}
                   src={c.logo}
                   alt=""
                   loading="lazy"

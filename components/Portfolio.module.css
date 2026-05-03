@@ -61,6 +61,16 @@
   opacity: 1;
 }
 
+/* Logos that ship as white-on-transparent (designed for dark backgrounds).
+   Flip the filter polarity: invert by default so they read on the white
+   card, then drop the invert on hover so they read on the black card. */
+.logoInverted {
+  filter: grayscale(1) contrast(1.05) invert(1);
+}
+.card:hover .logoInverted {
+  filter: grayscale(1) contrast(1.05);
+}
+
 .name {
   font-size: 1.0625rem;
   font-weight: 600;

@@ -200,6 +200,16 @@ export default config({
               ],
               defaultValue: 'default',
             }),
+            colorMode: fields.select({
+              label: 'Logo color mode',
+              description:
+                'Default = dark logo on transparent. Inverted = white-on-transparent logo (we flip it so it reads on the white card).',
+              options: [
+                { label: 'Default (dark logo)', value: 'default' },
+                { label: 'Inverted (white-only logo)', value: 'inverted' },
+              ],
+              defaultValue: 'default',
+            }),
           }),
           {
             label: 'Clients',

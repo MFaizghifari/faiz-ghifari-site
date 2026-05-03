@@ -39,7 +39,9 @@
     {
       "name": "PT SMI",
       "detail": "Guest Speaker at the Company-wide Townhall",
-      "size": "default"
+      "logo": "/logos/ptsmi.svg",
+      "size": "seal",
+      "colorMode": "inverted"
     },
     {
       "name": "Badan Kebijakan Fiskal",
