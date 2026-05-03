@@ -19,15 +19,16 @@
       "size": "default"
     },
     {
-      "name": "PT SMI",
-      "detail": "Guest Speaker at the Company-wide Townhall",
+      "name": "Siloam Hospital",
+      "detail": "AI Training for nationwide employees in GenAI Adoption",
+      "logo": "/logos/siloam.svg",
       "size": "default"
     },
     {
-      "name": "Gojek",
-      "detail": "Giving Training session for Company Beneficiaries (CSR)",
-      "logo": "/logos/gojek.svg",
-      "size": "default"
+      "name": "DJPPR Kementrian Keuangan",
+      "detail": "Gave internal corporate training for employees, from staff to Eselon 2 Level",
+      "logo": "/logos/djppr.svg",
+      "size": "seal"
     },
     {
       "name": "PT Pegadaian",
@@ -36,15 +37,14 @@
       "size": "default"
     },
     {
+      "name": "PT SMI",
+      "detail": "Guest Speaker at the Company-wide Townhall",
+      "size": "default"
+    },
+    {
       "name": "Badan Kebijakan Fiskal",
       "detail": "Keynote Speaker at Public Session \"Nyibir Fiskal\"",
       "logo": "/logos/bkf.svg",
-      "size": "seal"
-    },
-    {
-      "name": "DJPPR",
-      "detail": "Gave internal corporate training for employees, up until Eselon 2 Level",
-      "logo": "/logos/djppr.svg",
       "size": "seal"
     },
     {
@@ -57,6 +57,12 @@
       "name": "KOMINFO RI",
       "detail": "Giving internal corporate training for employees",
       "logo": "/logos/kominfo.svg",
+      "size": "default"
+    },
+    {
+      "name": "Gojek",
+      "detail": "Giving Training session for Company Beneficiaries (CSR)",
+      "logo": "/logos/gojek.svg",
       "size": "default"
     },
     {
@@ -116,12 +122,6 @@
       "name": "Bisnis.com × Indosat",
       "detail": "Gave Training session for Company Beneficiaries (CSR) at Kupang, NTT",
       "logo": "/logos/bisnis.svg",
-      "size": "default"
-    },
-    {
-      "name": "Siloam Hospital",
-      "detail": "AI Training for nationwide employees in GenAI Adoption",
-      "logo": "/logos/siloam.svg",
       "size": "default"
     },
     {
