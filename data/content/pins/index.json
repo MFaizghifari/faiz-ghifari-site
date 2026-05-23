@@ -13,9 +13,9 @@
       "name": "Sulawesi Utara",
       "places": [
         { "name": "Manado", "lng": 124.841, "lat": 1.487, "dive": false, "highlights": [], "diveSpots": [] },
-        { "name": "Minahasa Utara", "lng": 125.036, "lat": 1.555, "dive": false, "highlights": [], "diveSpots": [] },
-        { "name": "Bunaken", "lng": 124.755, "lat": 1.617, "dive": true, "highlights": ["Bunaken Marine Park", "Wall diving"], "diveSpots": ["Lekuan", "Mandolin", "Sachiko's Point"] },
-        { "name": "Tomohon", "lng": 124.833, "lat": 1.327, "dive": false, "highlights": ["Gunung Lokon", "Gunung Mahawu", "Pasar Tomohon"], "diveSpots": [] }
+        { "name": "Minahasa Utara", "lng": 125.500, "lat": 2.000, "dive": false, "highlights": [], "diveSpots": [] },
+        { "name": "Bunaken", "lng": 124.500, "lat": 1.950, "dive": true, "highlights": ["Bunaken Marine Park", "Wall diving"], "diveSpots": ["Lekuan", "Mandolin", "Sachiko's Point"] },
+        { "name": "Tomohon", "lng": 124.950, "lat": 0.850, "dive": false, "highlights": ["Gunung Lokon", "Gunung Mahawu", "Pasar Tomohon"], "diveSpots": [] }
       ]
     },
     {
@@ -59,8 +59,8 @@
         { "name": "Sorong", "lng": 131.256, "lat": -0.88, "dive": false, "highlights": ["Papua Barat Daya"], "diveSpots": [] },
         { "name": "Raja Ampat", "lng": 130.517, "lat": -0.234, "dive": true, "highlights": ["Papua Barat Daya"], "diveSpots": [] },
         { "name": "Jayapura", "lng": 140.717, "lat": -2.533, "dive": false, "highlights": ["Ibu kota Papua", "Teluk Yos Sudarso"], "diveSpots": [] },
-        { "name": "Depapre", "lng": 140.083, "lat": -2.587, "dive": true, "highlights": ["Pantai Harlem", "Tablanusu"], "diveSpots": ["Pantai Harlem"] },
-        { "name": "PNG Border (Skouw)", "lng": 141.000, "lat": -2.610, "dive": false, "highlights": ["Perbatasan RI–Papua Nugini", "Wutung crossing"], "diveSpots": [] }
+        { "name": "Depapre", "lng": 139.750, "lat": -2.200, "dive": true, "highlights": ["Pantai Harlem", "Tablanusu"], "diveSpots": ["Pantai Harlem"] },
+        { "name": "PNG Border (Skouw)", "lng": 141.300, "lat": -2.100, "dive": false, "highlights": ["Perbatasan RI–Papua Nugini", "Wutung crossing"], "diveSpots": [] }
       ]
     },
     {
