@@ -1,5 +1,5 @@
 {
-  "divesLogged": 32,
+  "divesLogged": 35,
   "regions": [
     {
       "name": "Maluku",
@@ -23,7 +23,10 @@
       "places": [
         { "name": "Kupang", "lng": 123.608, "lat": -10.179, "dive": false, "highlights": [], "diveSpots": [] },
         { "name": "Maumere", "lng": 122.213, "lat": -8.619, "dive": false, "highlights": [], "diveSpots": [] },
-        { "name": "Ende", "lng": 121.659, "lat": -8.843, "dive": false, "highlights": ["Kelimutu"], "diveSpots": [] }
+        { "name": "Ende", "lng": 121.659, "lat": -8.843, "dive": false, "highlights": ["Kelimutu"], "diveSpots": [] },
+        { "name": "Labuan Bajo", "lng": 119.90, "lat": -8.48, "dive": false, "highlights": ["Gerbang Taman Nasional Komodo", "Bukit Cinta sunset"], "diveSpots": [] },
+        { "name": "Pulau Komodo", "lng": 119.40, "lat": -8.62, "dive": true, "highlights": ["Komodo dragons", "Pink Beach"], "diveSpots": ["Batu Bolong", "Manta Point", "Castle Rock"] },
+        { "name": "Pulau Padar", "lng": 119.60, "lat": -8.75, "dive": false, "highlights": ["Three-color beach viewpoint", "Sunrise ridge"], "diveSpots": [] }
       ]
     },
     {
