@@ -7,12 +7,13 @@
 }
 
 .heading {
-  font-family: 'Times New Roman', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-size: var(--fs-h2);
   margin: 0 0 2rem;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
+  line-height: 1.08;
 }
 
 .shelf {
@@ -144,7 +145,7 @@
 }
 
 .coverFallbackTitle {
-  font-family: 'Times New Roman', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.95rem;
   line-height: 1.2;
@@ -164,7 +165,7 @@
 }
 
 .bookTitle {
-  font-family: 'Times New Roman', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(1.3rem, 2vw, 1.7rem);

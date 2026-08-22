@@ -50,10 +50,13 @@
 }
 
 .title {
-  font-size: 1.375rem;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.25;
+  /* Post titles are titles of works — they take the editorial voice. */
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
 }
 
 .excerpt {

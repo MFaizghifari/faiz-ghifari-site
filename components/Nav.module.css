@@ -13,9 +13,13 @@
 }
 
 .mark {
+  /* Monogram set in the display voice — reads as a masthead signature. */
+  font-family: var(--font-display);
+  font-style: italic;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  font-size: 1rem;
+  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .links {

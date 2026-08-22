@@ -28,10 +28,12 @@
 }
 
 .headerHeading {
+  font-family: var(--font-display);
+  font-style: italic;
   font-size: var(--fs-h2);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.005em;
   max-width: 22ch;
 }
 
