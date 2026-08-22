@@ -21,6 +21,14 @@
   line-height: 1;
 }
 
+/* Emoji have no italic cut, so the browser fakes one by skewing the glyph.
+   Opt back out — an upright cup next to the slanted words reads as
+   intentional; a tilted one just looks like a rendering bug. */
+.ctaEmoji {
+  font-style: normal;
+  display: inline-block;
+}
+
 .contacts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
